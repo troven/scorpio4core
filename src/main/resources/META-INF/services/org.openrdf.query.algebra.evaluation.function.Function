@@ -1,0 +1,4 @@
+com.factcore.vendor.sesame.fn.UUID
+com.factcore.vendor.sesame.fn.GeoDistance
+com.factcore.vendor.sesame.fn.Contrive
+com.factcore.vendor.sesame.fn.Summarize

@@ -1,0 +1,3 @@
+SELECT DISTINCT ?this ?sparql WHERE {
+    ?this <urn:xyz> ?sparql.
+}

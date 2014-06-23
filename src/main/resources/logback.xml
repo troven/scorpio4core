@@ -1,0 +1,37 @@
+<configuration>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/factcore.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>logs/factcore.%i.log</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>5</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>10MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%date [%level] %logger{18} %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!--
+	This configuration tools is the default logback configuration for production.
+
+	DO NOT EDIT IT FOR DEBUGGING PURPOSES!
+
+	Instead, create a logback-test.xml tools (do not put int under version control, it is git-ignored)
+	and put whatever you want there.
+	Kernel will automatically use the logback-test configuration if it is found.
+	-->
+
+	<root level="${root-level:-ERROR}">
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="STDOUT"/>
+	</root>
+
+</configuration>
