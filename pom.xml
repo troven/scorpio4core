@@ -32,7 +32,6 @@
     <scm>
         <connection>scm:git:http://54.79.86.22:8080/gitblit/r/Common.git</connection>
         <developerConnection>scm:git:http://lee@54.79.86.22:8080/gitblit/r/Common.git</developerConnection>
-        <url>http://somerepository.com/view.cvs</url>
     </scm>
 
     <properties>
