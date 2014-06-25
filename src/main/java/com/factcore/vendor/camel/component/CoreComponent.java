@@ -43,6 +43,8 @@ public class CoreComponent extends ClassComponent {
 			return new BeanEndpoint(uri, this, new BeanProcessor(new Raw(this, remaining.substring(6)), getCamelContext()));
 		} else if (remaining.startsWith("deploy:")) {
 			return new BeanEndpoint(uri, this, new BeanProcessor(new Deploy(this, remaining.substring(7)), getCamelContext()));
+		} else if (remaining.startsWith("execute:")) {
+			return new BeanEndpoint(uri, this, new BeanProcessor(new Execute(this, remaining.substring(8)), getCamelContext()));
 		}
 
 		return null;

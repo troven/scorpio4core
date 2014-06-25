@@ -35,7 +35,8 @@ public abstract class Base {
 		this.coreComponent = coreComponent;
 		this.uri=uri;
 		asset = coreComponent.getAssetRegister().getAsset(uri,null);
-		log.info(getClass().getSimpleName()+"Asset -> "+asset.getMimeType()+" -> "+uri+"\n"+asset);
+
+		log.info(getClass().getSimpleName()+"Asset -> "+asset==null?"":asset.getMimeType()+" -> "+uri+"\n"+asset);
 	}
 
 	public abstract Executable getExecutable();

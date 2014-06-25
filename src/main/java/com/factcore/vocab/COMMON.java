@@ -26,49 +26,50 @@ package com.factcore.vocab;
  */
 public interface COMMON {
 
-    public static String OWL = "http://www.w3.org/2002/07/owl#";
-	public static String RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-	public static String RDFS = "http://www.w3.org/2000/01/rdf-schema#";
-	public static String RDFS_TYPE = RDF+"type";
-    public static String RDFS_SUBPROPERTY = RDFS+"subPropertyOf";
-	public static String A = RDFS_TYPE;
-	public static String RDFS_SUBCLASS = RDFS+"subClassOf";
-	public static String ASA = RDFS_SUBCLASS ;
-    public static String SAMEAS = OWL+"sameAs";
-	public static String LABEL = RDFS+"label" ;
-	public static String COMMENT = RDFS+"comment" ;
-    public static String DOMAIN = RDFS+"domain" ;
-    public static String RANGE = RDFS+"range" ;
+    public static final String OWL = "http://www.w3.org/2002/07/owl#";
+	public static final String RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+	public static final String RDFS = "http://www.w3.org/2000/01/rdf-schema#";
+	public static final String RDFS_TYPE = RDF+"type";
+    public static final String RDFS_SUBPROPERTY = RDFS+"subPropertyOf";
+	public static final String A = RDFS_TYPE;
+	public static final String RDFS_SUBCLASS = RDFS+"subClassOf";
+	public static final String ASA = RDFS_SUBCLASS ;
+    public static final String SAMEAS = OWL+"sameAs";
+	public static final String LABEL = RDFS+"label" ;
+	public static final String COMMENT = RDFS+"comment" ;
+    public static final String DOMAIN = RDFS+"domain" ;
+    public static final String RANGE = RDFS+"range" ;
 
     // Common Vocabularies;
 
-	public static String XSD = "http://www.w3.org/2001/XMLSchema#";
-    public static String DC = "http://purl.org/dc/elements/1.1/";
-    public static String DCTERMS = "http://purl.org/dc/terms/";
-    public static String SKOS = "http://www.w3.org/2004/02/skos/core#";
-    public static String GEO = "http://www.w3.org/2003/01/geo/wgs84_pos#";
+	public static final String XSD = "http://www.w3.org/2001/XMLSchema#";
+    public static final String DC = "http://purl.org/dc/elements/1.1/";
+    public static final String DCTERMS = "http://purl.org/dc/terms/";
+    public static final String SKOS = "http://www.w3.org/2004/02/skos/core#";
+    public static final String GEO = "http://www.w3.org/2003/01/geo/wgs84_pos#";
     public static final String ACL = "http://www.w3.org/ns/auth/acl#";
 
-    public static String MIME_TYPE = "http://www.iana.org/assignments/media-types/";
+    public static final String MIME_TYPE = "http://www.iana.org/assignments/media-types/";
 
-    public static String MIME_GROOVY = MIME_TYPE+ "application/x-groovy";
-    public static String MIME_JAVASCRIPT = MIME_TYPE+ "application/x-javascript";
-    public static String MIME_PLAIN = MIME_TYPE+"text/plain";
-    public static String MIME_JSON = MIME_TYPE+ "application/json";
-    public static String MIME_PROPERTIES = MIME_TYPE+ "text/x-java-properties";
-    public static String MIME_SPARQL = MIME_TYPE+"application/x-sparql-query";
-    public static String MIME_SQL = MIME_TYPE+"text/x-sql";
+    public static final String MIME_GROOVY = MIME_TYPE+ "application/x-groovy";
+    public static final String MIME_JAVASCRIPT = MIME_TYPE+ "application/x-javascript";
+    public static final String MIME_PLAIN = MIME_TYPE+"text/plain";
+    public static final String MIME_JSON = MIME_TYPE+ "application/json";
+    public static final String MIME_PROPERTIES = MIME_TYPE+ "text/x-java-properties";
+    public static final String MIME_SPARQL = MIME_TYPE+"application/x-sparql-query";
+    public static final String MIME_SQL = MIME_TYPE+"text/x-sql";
+	public static final String MIME_JSON_LD = MIME_TYPE+"application/ld+json";
 
     public static final String MIME_HTML = MIME_TYPE+ "text/html";
     public static final String MIME_XHTML = MIME_TYPE+ "application/xhtml+xml";
     public static final String MIME_CSV = MIME_TYPE+"text/csv";
     public static final String MIME_XML = MIME_TYPE+"application/xml";
 
-    //    public static String ASSETS = "urn:factcore:assets:";
-    public static String SELF = "http://factcore.com/";
+    //    public static final String ASSETS = "urn:factcore:assets:";
+    public static final String SELF = "http://factcore.com/";
 
-    public static String CORE = SELF+"core/";
-    public static String FN = SELF+"vendor/sesame/fn/";
+    public static final String CORE = SELF+"core/";
+    public static final String FN = SELF+"vendor/sesame/fn/";
 
-	public static String CAMEL = "http://factcore.com/core/camel/";
+	public static final String CAMEL = "http://factcore.com/core/camel/";
 }

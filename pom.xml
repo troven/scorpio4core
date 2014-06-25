@@ -48,14 +48,25 @@
         <winstone.version>1.0.4</winstone.version>
         <spring.version>3.1.2.RELEASE</spring.version>
         <slf4j.version>1.6.6</slf4j.version>
-        <camel.version>2.10.1</camel.version>
-        <sesame.version>2.6.10</sesame.version>
+        <sesame.version>2.7.11</sesame.version>
+        <camel.version>2.13.1</camel.version>
         <lucene.version>4.5.0</lucene.version>
         <stanbol.version>0.10.0</stanbol.version>
         <james.version>3.0-M2</james.version>
         <vaadin.version>7.1.8</vaadin.version>
 
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <url>http://54.79.86.22:8080/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <snapshotRepository>
+            <id>central</id>
+            <url>http://54.79.86.22:8080/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <pluginRepositories>
         <pluginRepository>
@@ -140,6 +151,12 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
         </dependency>
 
         <!-- Apache Commons -->
@@ -236,6 +253,11 @@
             <artifactId>sesame-queryparser-sparql</artifactId>
             <version>${sesame.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-queryresultio-sparqljson</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
@@ -243,9 +265,22 @@
             <version>${sesame.version}</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.openrdf.sesame</groupId>-->
+            <!--<artifactId>sesame-server</artifactId>-->
+            <!--<version>${sesame.version}</version>-->
+        <!--</dependency>-->
+
+
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-repository-manager</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-sail-federation</artifactId>
             <version>${sesame.version}</version>
         </dependency>
 
@@ -253,7 +288,14 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
-            <version>2.10.3</version>
+            <version>${camel.version}</version>
+        </dependency>
+
+        <!-- Apache Libraries -->
+        <dependency>
+            <groupId>org.apache.any23</groupId>
+            <artifactId>apache-any23-core</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -284,6 +326,7 @@
             <version>1.9.3</version>
         </dependency>
 
+        <!-- Apache Maven -->
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
@@ -301,8 +344,6 @@
             <artifactId>maven-project</artifactId>
             <version>2.1.0</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>commons-codec</groupId>
@@ -326,6 +367,21 @@
                     <artifactId>smack</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+
+        <!-- JSON -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.3</version>
+            <classifier>jdk15</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
         </dependency>
 
     </dependencies>

@@ -31,8 +31,10 @@ import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
+import org.openrdf.rio.ParserConfig;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.RDFParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,6 +82,8 @@ public class SesameDeployer implements Identifiable {
 	public void init(RepositoryConnection connection, String context) throws FactException {
         try {
             setConnection(connection);
+	        //  (boolean verifyData, boolean stopAtFirstError, boolean preserveBNodeIDs, org.openrdf.rio.RDFParser.DatatypeHandling datatypeHandling) { /* compiled code */ }
+	        connection.setParserConfig(new ParserConfig(false, true, false, RDFParser.DatatypeHandling.NORMALIZE));
             setProvenance(context);
             initScriptEngines();
         } catch (RepositoryException e) {
@@ -144,7 +148,6 @@ public class SesameDeployer implements Identifiable {
 		} else {
             deploy(new JarFile(zipFile));
 		}
-		getConnection().commit();
 	}
 
 	public void deploy(java.net.URL url) throws FactException, IOException {
@@ -237,24 +240,57 @@ public class SesameDeployer implements Identifiable {
 	}
 
     public void n3(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+	    getConnection().begin();
         String baseURN = toURN(localPath, ":");
         log.debug("Deploying N3: "+baseURN+" in: "+provenanceContext+" ("+inStream.available()+")");
         getConnection().add(inStream, baseURN, RDFFormat.N3, provenanceContext);
         describeAsset(baseURN);
+	    getConnection().commit();
     }
 
+	public void deployNT(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+		getConnection().begin();
+		String baseURN = toURN(localPath, ":");
+		log.debug("Deploying NTriples for: "+baseURN+" in: "+provenanceContext);
+		getConnection().add(inStream, baseURN, RDFFormat.NTRIPLES, provenanceContext);
+		describeAsset(baseURN);
+		getConnection().commit();
+	}
+
+	public void deployTTL(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+		getConnection().begin();
+		String baseURN = toURN(localPath, ":");
+		log.debug("Deploying TTL for: "+baseURN+" in: "+provenanceContext);
+		getConnection().add(inStream, baseURN, RDFFormat.TURTLE, provenanceContext);
+		describeAsset(baseURN);
+		getConnection().commit();
+	}
+
+	public void deployRDFXML(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+		getConnection().begin();
+		String baseURN = toURN(localPath, ":");
+		log.debug("Deploying RDF/XML for: "+baseURN+" in: "+provenanceContext);
+		getConnection().add(inStream, baseURN, RDFFormat.RDFXML, provenanceContext);
+		describeAsset(baseURN);
+		getConnection().commit();
+	}
+
     public void asset(String scriptName, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
-        String uri = toURN(scriptName, ":");
+	    getConnection().begin();
+	    String uri = toURN(scriptName, ":");
         log.debug("Asset: "+scriptName+" -> "+uri);
         URI scriptURI = values.createURI(uri);
         asset(scriptName, scriptURI, inStream);
+	    getConnection().commit();
     }
 
     public void script(String scriptName, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+	    getConnection().begin();
         String uri = toURN(scriptName, ".");
         log.debug("Script: "+scriptName+" -> "+uri);
         URI beaURI = values.createURI(uri);
         asset(scriptName, beaURI, inStream);
+	    getConnection().commit();
     }
 
     protected void asset(String scriptName, URI scriptURI, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
@@ -282,26 +318,6 @@ public class SesameDeployer implements Identifiable {
         getConnection().add( values.createURI(baseURN) , rdfsLabel, values.createLiteral(label), provenanceContext );
     }
 
-    public void deployNT(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
-        String baseURN = toURN(localPath, ":");
-        log.debug("Deploying NTriples for: "+baseURN+" in: "+provenanceContext);
-        getConnection().add(inStream, baseURN, RDFFormat.NTRIPLES, provenanceContext);
-        describeAsset(baseURN);
-    }
-
-	public void deployTTL(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
-        String baseURN = toURN(localPath, ":");
-		log.debug("Deploying TTL for: "+baseURN+" in: "+provenanceContext);
-		getConnection().add(inStream, baseURN, RDFFormat.TURTLE, provenanceContext);
-        describeAsset(baseURN);
-	}
-
-	public void deployRDFXML(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
-        String baseURN = toURN(localPath, ":");
-		log.debug("Deploying RDF/XML for: "+baseURN+" in: "+provenanceContext);
-		getConnection().add(inStream, baseURN, RDFFormat.RDFXML, provenanceContext);
-        describeAsset(baseURN);
-	}
 
 	public ClassLoader loadClasses(URL zipFile) throws ClassNotFoundException, NoSuchMethodException {
 		return loadClasses(zipFile, getClass().getClassLoader());

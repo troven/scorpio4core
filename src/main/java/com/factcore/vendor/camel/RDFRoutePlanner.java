@@ -12,6 +12,7 @@ import org.apache.camel.model.PipelineDefinition;
 import org.apache.camel.model.ProcessorDefinition;
 import org.apache.camel.model.RouteDefinition;
 import org.apache.camel.spi.EndpointStrategy;
+import org.openrdf.model.BNode;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
@@ -84,7 +85,7 @@ public class RDFRoutePlanner extends RoutePlanner {
 					log.debug("\t"+from);
 					RouteDefinition route = plan(connection, vf, from, from(from));
 					log.debug("\t" + route);
-					route.end();
+					ProcessorDefinition<?> end = route.end();
 					count++;
 				}
 			};
@@ -109,7 +110,15 @@ public class RDFRoutePlanner extends RoutePlanner {
 		if (action.startsWith(COMMON.CAMEL)) {
 			action = action.substring(COMMON.CAMEL.length());
 
-			String to = endpoint.getObject().stringValue();
+			Value _to = endpoint.getObject();
+			if (_to instanceof BNode) {
+				RepositoryResult<Statement> statements = connection.getStatements((BNode)_to, null, null, false);
+				while(statements.hasNext()) {
+					plan(connection,vf,route,statements.next());
+				}
+				return;
+			}
+			String to = _to.stringValue();
 			log.debug("\t\t"+action+" -> "+to);
 			if (action.equals("to")) {
 				route = route.to(to);
@@ -136,7 +145,6 @@ public class RDFRoutePlanner extends RoutePlanner {
 
 			plan(connection, vf, to, route);
 		}
-		else log.trace("Unknown predicate: " + action);
 	}
 
 }
