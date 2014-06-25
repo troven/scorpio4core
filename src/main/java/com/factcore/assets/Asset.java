@@ -10,8 +10,15 @@ import com.factcore.vocab.COMMON;
  * Time  : 8:50 PM
  */
 public class Asset {
+	String identity = null;
     Object content = null;
     String mimeType = null;
+
+	public Asset(String identity, Object content, String mimeType) {
+		this.identity=identity;
+		this.content=content;
+		this.mimeType=mimeType;
+	}
 
     public Asset(Object content, String mimeType) {
         this.content=content;
