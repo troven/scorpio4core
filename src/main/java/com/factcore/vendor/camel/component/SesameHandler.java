@@ -64,6 +64,7 @@ public class SesameHandler {
 
 		String contentType = ExchangeHelper.getContentType(exchange);
 		if (contentType==null||contentType.equals("")) {
+			log.debug("Accept-Types:"+headers.get("Accept"));
 			contentType = (String) headers.get("Accept");
 		}
 
@@ -76,7 +77,6 @@ public class SesameHandler {
 		// prepare SPARQL/XML results
 		StringWriter stringWriter = handle(sparql, parserFormatForMIMEType);
 		log.trace(stringWriter.toString());
-
 
 		// output message
 		String results = stringWriter.toString();
