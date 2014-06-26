@@ -54,6 +54,16 @@ public class Fingerprint {
         return toHex(md.digest());
     }
 
+	public static String identify(byte[] buffer) throws IOException, NoSuchAlgorithmException {
+		return identify(buffer, DEFAULT_ALGO);
+	}
+
+	public static String identify(byte[] buffer, String algorithm) throws IOException, NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance(algorithm);
+		md.update(buffer);
+		return toHex(md.digest());
+	}
+
     public static String copy(InputStream in, OutputStream out, int blocksize) throws IOException, NoSuchAlgorithmException {
         return copy(in,out,blocksize, DEFAULT_ALGO);
     }
