@@ -40,7 +40,7 @@ public class GeoDistance extends CustomFunction {
 
 	public Value evaluate(ValueFactory valueFactory, Value... args) throws ValueExprEvaluationException {
 		// our palindrome function expects only a single argument, so throw an error if there's more than one
-		if (args.length <4 || args.length > 5) {
+		if (args.length != 4 && args.length != 5) {
 			throw new ValueExprEvaluationException("fn:GeoDistance(lon1,lat1,lon2,lat2,[inMiles]) requires 4 or 5 parameters");
 		}
 		boolean inMiles = false;

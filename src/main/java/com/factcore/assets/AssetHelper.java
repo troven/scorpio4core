@@ -2,9 +2,13 @@ package com.factcore.assets;
 
 import com.factcore.oops.ConfigException;
 import com.factcore.template.PicoTemplate;
+import com.factcore.vocab.COMMON;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Fact:Core (c) 2014
@@ -26,5 +30,26 @@ public class AssetHelper {
             throw new IOException(e.getMessage(),e);
         }
     }
+
+	public Map getJSON(AssetRegister assetRegister, String resourcePath) throws IOException {
+		Asset asset = assetRegister.getAsset(resourcePath, COMMON.MIME_JSON);
+		return getJSON(asset);
+	}
+
+	public Map getJSON(Asset asset) throws IOException {
+		Gson gson = new Gson();
+		return gson.fromJson(new StringReader(asset.toString()),Map.class);
+	}
+
+	public Properties getProperties(AssetRegister assetRegister, String resourcePath) throws IOException {
+		Asset asset = assetRegister.getAsset(resourcePath, COMMON.MIME_PROPERTIES);
+		return getProperties(asset);
+	}
+
+	public Properties getProperties(Asset asset) throws IOException {
+		Gson gson = new Gson();
+		return gson.fromJson(new StringReader(asset.toString()),Properties.class);
+	}
+
 
 }

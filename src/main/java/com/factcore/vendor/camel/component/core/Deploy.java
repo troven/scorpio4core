@@ -1,6 +1,6 @@
 package com.factcore.vendor.camel.component.core;
 
-import com.factcore.deploy.SesameDeployer;
+import com.factcore.deploy.Scorpio4SesameDeployer;
 import com.factcore.oops.AssetNotSupported;
 import com.factcore.oops.FactException;
 import com.factcore.oops.IQException;
@@ -39,9 +39,9 @@ public class Deploy {
 		Map<String, Object> headers = exchange.getIn().getHeaders();
 		Object body = exchange.getIn().getBody();
 
-		SesameDeployer sesameDeployer = new SesameDeployer(coreComponent.getFactSpace());
-		sesameDeployer.setDeployScripts(true);
-		sesameDeployer.setDeployRDF(true);
+		Scorpio4SesameDeployer scorpio4SesameDeployer = new Scorpio4SesameDeployer(coreComponent.getFactSpace());
+		scorpio4SesameDeployer.setDeployScripts(true);
+		scorpio4SesameDeployer.setDeployRDF(true);
 
 		if (uri.equals("") && body!=null) {
 			String from = exchange.getFromEndpoint().getEndpointUri();
@@ -50,7 +50,7 @@ public class Deploy {
 //			sesameDeployer.deploy(from, new StringInputStream());
 		} else {
 			log.info("Deploy URL: "+uri);
-			sesameDeployer.deploy(new URL(uri));
+			scorpio4SesameDeployer.deploy(new URL(uri));
 		}
 
 		exchange.getOut().setBody(body);

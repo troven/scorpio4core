@@ -5,6 +5,7 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.component.bean.BeanEndpoint;
 import org.apache.camel.component.bean.BeanProcessor;
 import org.apache.camel.component.bean.ClassComponent;
+import org.apache.camel.util.IntrospectionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,7 @@ public class FingerPrintComponent extends ClassComponent {
 	}
 
 	protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-		return new BeanEndpoint(uri,this, new BeanProcessor(new FingerprintHandler(), getCamelContext() ));
+		Map<String, Object> params = IntrospectionSupport.extractProperties(parameters, "scorpio4.");
+		return new BeanEndpoint(uri,this, new BeanProcessor(new FingerprintHandler(params), getCamelContext() ));
 	}
 }

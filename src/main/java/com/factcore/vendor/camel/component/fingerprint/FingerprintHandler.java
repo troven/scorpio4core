@@ -8,6 +8,7 @@ import org.apache.camel.Message;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 /**
  * Scorpio (c) 2014
@@ -18,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class FingerprintHandler {
 
-	public FingerprintHandler() {
+	public FingerprintHandler(Map<String, Object> params) {
 	}
 
 

@@ -55,7 +55,7 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class SesameDeployer implements Identifiable {
+public class Scorpio4SesameDeployer implements Identifiable {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private boolean deployRDF = true;
@@ -75,7 +75,7 @@ public class SesameDeployer implements Identifiable {
     URI textType = null, rdfsLabel = null, mimeExtension = null;
     ScriptEngineManager sem = new ScriptEngineManager();
 
-    public SesameDeployer(FactSpace factSpace) throws FactException {
+    public Scorpio4SesameDeployer(FactSpace factSpace) throws FactException {
         init(factSpace.getConnection(), factSpace.getIdentity());
     }
 

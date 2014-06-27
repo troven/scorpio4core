@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * Scorpio (c) 2014
@@ -23,7 +25,7 @@ import java.io.ByteArrayOutputStream;
 public class Any23Handler {
 	static protected final Logger log = LoggerFactory.getLogger(Any23Handler.class);
 
-	public Any23Handler() {
+	public Any23Handler(Map<String, Object> params) {
 	}
 
 	@Handler
@@ -42,7 +44,7 @@ public class Any23Handler {
 
 		DocumentSource source = new StringDocumentSource(body, uri, contentType);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		TripleHandler handler = new NTriplesWriter(out);
+		TripleHandler handler = getTripleHandler(contentType, out);
 		try {
 			runner.extract(source, handler);
 		} catch(Exception e) {
@@ -51,6 +53,10 @@ public class Any23Handler {
 			handler.close();
 		}
 		exchange.getOut().setBody(out.toString("UTF-8"));
+	}
+
+	public TripleHandler getTripleHandler(String contentType, OutputStream out) {
+		return new NTriplesWriter(out);
 	}
 }
 

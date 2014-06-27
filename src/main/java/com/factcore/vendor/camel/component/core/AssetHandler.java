@@ -8,6 +8,7 @@ import com.factcore.vendor.camel.component.CoreComponent;
 import com.factcore.vocab.COMMON;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
+import org.apache.camel.Message;
 import org.apache.camel.util.ExchangeHelper;
 import org.openrdf.repository.RepositoryException;
 
@@ -22,9 +23,9 @@ import java.util.concurrent.ExecutionException;
  * Date  : 23/06/2014
  * Time  : 11:01 AM
  */
-public class Raw extends Base {
+public class AssetHandler extends Base {
 
-	public Raw(CoreComponent coreComponent, String substring) throws IOException {
+	public AssetHandler(CoreComponent coreComponent, String substring) throws IOException {
 		super(coreComponent,substring);
 	}
 
@@ -36,23 +37,26 @@ public class Raw extends Base {
 	@Handler
 	public void execute(Exchange exchange) throws RepositoryException, ExecutionException, IQException, InterruptedException, IOException, AssetNotSupported {
 
-		Map<String, Object> headers = exchange.getIn().getHeaders();
+		Message in = exchange.getIn();
+		Map<String, Object> headers = in.getHeaders();
+		Message out = exchange.getOut();
+		out.setHeaders(headers);
 
 		String contentType = ExchangeHelper.getContentType(exchange);
 		String mimeType = COMMON.MIME_TYPE+contentType;
+
+		if (asset==null) {
+			asset = coreComponent.getAssetRegister().getAsset(uri,mimeType);
+			if (asset==null) {
+				log.debug("Missing (" + contentType + ") Raw Asset: " + getClass().getSimpleName() + " -> " + uri);
+				out.setBody(in.getBody());
+				return;
+			}
+		}
 		if (asset!=null) {
 			asset = AssetHelper.getAsset(asset, headers);
 			log.debug("Asset: "+getClass().getSimpleName()+" -> "+uri);
-			asset.setMimeType(mimeType);
-			exchange.getOut().setBody(asset.getContent());
-			exchange.getOut().setHeaders(headers);
-		} else {
-			asset = coreComponent.getAssetRegister().getAsset(uri,mimeType);
-			if (asset!=null) log.debug("Found !!");
-			log.debug("Missing ("+contentType+") Raw Asset: "+getClass().getSimpleName()+" -> "+uri);
-			log.debug("\t{}", headers);
-			exchange.getOut().setBody(exchange.getIn().getBody());
-			exchange.getOut().setHeaders(headers);
+			out.setBody(asset.getContent());
 		}
 	}
 }

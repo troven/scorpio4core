@@ -5,6 +5,7 @@ import com.factcore.oops.FactException;
 import com.factcore.vendor.camel.component.CRUDComponent;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
+import org.apache.camel.Message;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,22 +18,25 @@ import java.util.Map;
  * Time  : 1:50 AM
  */
 public class Update extends Base {
-	public Update(CRUDComponent crud, String asset) throws FactException, IOException, ConfigException {
+	public Update(CRUDComponent crud, String asset, Map<String, Object> params) throws FactException, IOException, ConfigException {
 		super(crud, asset);
 	}
 
 	@Handler
 	public void update(Exchange exchange) throws FactException, IOException, ConfigException {
-		log.debug("UPDATE: "+assetURI+" -> "+exchange);
-		Map<String, Object> headers = exchange.getIn().getHeaders();
-		Map body = exchange.getIn().getBody(Map.class);
+		Message out = exchange.getOut();
+		Message in = exchange.getIn();
+		Map<String, Object> headers = in.getHeaders();
+		Map body = in.getBody(Map.class);
 		body = body==null?headers:body;
+
+		log.debug("UPDATE: "+assetURI+" -> "+exchange);
 		headers.put("sparql.update", assetURI);
 
-		log.debug("head: "+headers);
-		log.debug("body: "+exchange.getIn().getBody());
+		log.debug("head: " + headers);
+		log.debug("body: "+ in.getBody());
 		Map updated = crud.getCRUD().update(body);
-		exchange.getOut().setBody(updated);
-		exchange.getOut().setHeaders(headers);
+		out.setBody(updated);
+		out.setHeaders(headers);
 	}
 }

@@ -24,7 +24,7 @@ public class Lifecycle {
 	SelfComponent self;
 	String action, uri;
 
-	public Lifecycle(SelfComponent self, String uri, String action) {
+	public Lifecycle(SelfComponent self, String uri, String action, Map<String, Object> params) {
 		this.self=self;
 		this.uri=uri;
 		this.action=action;

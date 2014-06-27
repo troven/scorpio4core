@@ -19,9 +19,11 @@ import java.util.Map;
  */
 public class AssetRegisters extends BaseAssetRegister {
 	private static final Logger log = LoggerFactory.getLogger(AssetRegisters.class);
+	private static final String CLASSPATH = "classpath:";
 
 	List<AssetRegister> assets = new ArrayList();
     Map bindings = null;
+	JARAssetRegister jarAssets = null;
 
 	public AssetRegisters(RepositoryConnection connection) {
         init(connection);
@@ -33,7 +35,8 @@ public class AssetRegisters extends BaseAssetRegister {
     }
 
     private void init(RepositoryConnection connection) {
-        add(new JARAssetRegister()); // jar-packaged assets are preferred
+	    jarAssets = new JARAssetRegister();
+	    add(jarAssets); // jar-packaged assets are preferred
         SesameAssetRegister rdfAssets = new SesameAssetRegister(connection);
         rdfAssets.setInferred(true);
         add(rdfAssets);
@@ -49,6 +52,9 @@ public class AssetRegisters extends BaseAssetRegister {
 
 	@Override
 	public Asset getAsset(String uri, String mimeType) throws IOException {
+		if (uri.startsWith(CLASSPATH)) {
+			return jarAssets.getAsset(uri.substring(CLASSPATH.length()),mimeType);
+		}
         Asset found = null;
 		for(AssetRegister asset: assets) {
 			try {

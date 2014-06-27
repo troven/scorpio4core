@@ -31,6 +31,7 @@ public class CoreComponent extends ClassComponent {
 	}
 
 	protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
+
 		if (remaining.startsWith("script:")) {
 			return new BeanEndpoint(uri, this, new BeanProcessor(new Script(this, remaining.substring(7)), getCamelContext()));
 		} else if (remaining.startsWith("infer:")) {
@@ -40,7 +41,7 @@ public class CoreComponent extends ClassComponent {
 		} else if (remaining.startsWith("sparql:")) {
 			return new BeanEndpoint(uri, this, new BeanProcessor(new SPARQL(this, remaining.substring(7)), getCamelContext()));
 		} else if (remaining.startsWith("asset:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Raw(this, remaining.substring(6)), getCamelContext()));
+			return new BeanEndpoint(uri, this, new BeanProcessor(new AssetHandler(this, remaining.substring(6)), getCamelContext()));
 		} else if (remaining.startsWith("deploy:")) {
 			return new BeanEndpoint(uri, this, new BeanProcessor(new Deploy(this, remaining.substring(7)), getCamelContext()));
 		} else if (remaining.startsWith("execute:")) {

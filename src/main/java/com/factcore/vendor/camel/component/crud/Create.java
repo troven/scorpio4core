@@ -17,7 +17,7 @@ import java.util.Map;
  * Time  : 1:50 AM
  */
 public class Create extends Base {
-	public Create(CRUDComponent crud, String asset) throws FactException, IOException, ConfigException {
+	public Create(CRUDComponent crud, String asset, Map<String, Object> params) throws FactException, IOException, ConfigException {
 		super(crud, asset);
 	}
 

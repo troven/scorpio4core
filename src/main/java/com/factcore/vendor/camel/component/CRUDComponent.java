@@ -9,6 +9,7 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.component.bean.BeanEndpoint;
 import org.apache.camel.component.bean.BeanProcessor;
 import org.apache.camel.component.bean.ClassComponent;
+import org.apache.camel.util.IntrospectionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,14 +35,15 @@ public class CRUDComponent extends ClassComponent {
 	}
 
 	protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
+		Map<String, Object> params = IntrospectionSupport.extractProperties(parameters, "crud.");
 		if (remaining.startsWith("create:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Create(this, remaining.substring(6)), getCamelContext()));
+			return new BeanEndpoint(uri, this, new BeanProcessor(new Create(this, remaining.substring(6), params), getCamelContext()));
 		} else if (remaining.startsWith("read:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Read(this, remaining.substring(5)), getCamelContext()));
+			return new BeanEndpoint(uri, this, new BeanProcessor(new Read(this, remaining.substring(5), params), getCamelContext()));
 		} else if (remaining.startsWith("update:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Update(this, remaining.substring(7)), getCamelContext()));
+			return new BeanEndpoint(uri, this, new BeanProcessor(new Update(this, remaining.substring(7), params), getCamelContext()));
 		} else if (remaining.startsWith("delete:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Delete(this, remaining.substring(7)), getCamelContext()));
+			return new BeanEndpoint(uri, this, new BeanProcessor(new Delete(this, remaining.substring(7), params), getCamelContext()));
 		}
 
 		return null;

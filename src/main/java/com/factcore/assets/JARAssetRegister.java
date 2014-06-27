@@ -61,7 +61,7 @@ public class JARAssetRegister extends BaseAssetRegister {
 	public static String fromURNToPath(String path) {
         log.trace("fromURNToPath: "+path);
 		if (path.startsWith(separatorURN)){
-            path = path.substring(4,path.length());
+            path = path.substring(separatorURN.length(),path.length());
         }
 		return path.replaceAll(":", "/"/*File.separator*/);
 	}

@@ -1,4 +1,4 @@
-package com.factcore.vendor.camel.component;
+package com.factcore.vendor.camel.component.sesame;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
@@ -35,10 +35,6 @@ public class SesameHandler {
 	private int maxQueryTime = -1;
 	String sparql = null;
 
-	public SesameHandler(RepositoryConnection connection) {
-		this.connection=connection;
-	}
-
 	public SesameHandler(RepositoryConnection connection, String sparql, boolean isInferred, int maxQueryTime, boolean autoClose) {
 		this.connection=connection;
 		this.sparql=sparql;
@@ -67,7 +63,6 @@ public class SesameHandler {
 			log.debug("Accept-Types:"+headers.get("Accept"));
 			contentType = (String) headers.get("Accept");
 		}
-
 
 		TupleQueryResultFormat parserFormatForMIMEType = QueryResultIO.getParserFormatForMIMEType(contentType, TupleQueryResultFormat.JSON);
 		headers.put("Content-Type", parserFormatForMIMEType.getDefaultMIMEType()+";"+parserFormatForMIMEType.getCharset());

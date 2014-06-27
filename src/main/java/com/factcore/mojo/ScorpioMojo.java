@@ -144,8 +144,8 @@ public abstract class ScorpioMojo extends AbstractMojo {
     }
 
     public Repository newSandboxRepository(Map properties) throws RepositoryException {
-        String host = MapUtil.getString(properties, "factcore.sandbox.host", null);
-        String name = MapUtil.getString(properties, "factcore.sandbox.name", null);
+        String host = MapUtil.getString(properties, "factcore.upload.host", null);
+        String name = MapUtil.getString(properties, "factcore.upload.name", null);
         File dataDir = new File(tempPath, "sandbox");
         dataDir.mkdirs();
 

@@ -1,6 +1,6 @@
 package com.factcore.vendor.camel.component.sparql
 
-import com.factcore.vendor.camel.component.SesameHandler
+import com.factcore.vendor.camel.component.sesame.SesameHandler
 import org.openrdf.query.resultio.TupleQueryResultFormat
 import org.openrdf.repository.http.HTTPRepository
 /**
