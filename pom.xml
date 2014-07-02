@@ -35,6 +35,7 @@
             <timezone>+11</timezone>
         </developer>
     </developers>
+
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -44,7 +45,7 @@
     </licenses>
 
     <scm>
-        <url>://github.com/troven/scorpio4core.git</url>
+        <url>github.com/troven/scorpio4core.git</url>
         <connection>scm:git:https://github.com/troven/scorpio4core.git</connection>
     </scm>
 
