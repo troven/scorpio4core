@@ -35,6 +35,7 @@ public abstract class ScorpioMojo extends AbstractMojo {
 	public File srcPath = null, targetPath = null, tempPath = null, resourcesPath=null;
 	public String identity = null;
 	public Stopwatch stopWatch = new Stopwatch();
+	String PROJECT_PREFIX = "scorpio4";
 
 //    public MavenProject project;
 
@@ -48,13 +49,13 @@ public abstract class ScorpioMojo extends AbstractMojo {
 
     public void initialize() throws MojoFailureException, RepositoryException, MalformedURLException, RepositoryConfigException {
         Hashtable properties = getProject().getProperties();
-        this.identity = MapUtil.getString(properties, "factcore.id", null);
+        this.identity = MapUtil.getString(properties, PROJECT_PREFIX+".id", null);
         if (this.identity==null) throw new MojoFailureException("Missing <factcore.id>");
 
-        this.srcPath = MapUtil.getFile(properties, "factcore.src.path", getProject().getBasedir() );
-        this.resourcesPath = MapUtil.getFile(properties, "factcore.resources.path", srcPath );
-        this.targetPath = MapUtil.getFile(properties, "factcore.target.path", getProject().getBasedir() );
-        this.tempPath = MapUtil.getFile(properties, "factcore.temp.path", getProject().getBasedir() );
+        this.srcPath = MapUtil.getFile(properties, PROJECT_PREFIX+".src.path", getProject().getBasedir() );
+        this.resourcesPath = MapUtil.getFile(properties, PROJECT_PREFIX+".resources.path", srcPath );
+        this.targetPath = MapUtil.getFile(properties, PROJECT_PREFIX+".target.path", getProject().getBasedir() );
+        this.tempPath = MapUtil.getFile(properties, PROJECT_PREFIX+".temp.path", getProject().getBasedir() );
 
         initializeRepository();
     }
@@ -144,8 +145,8 @@ public abstract class ScorpioMojo extends AbstractMojo {
     }
 
     public Repository newSandboxRepository(Map properties) throws RepositoryException {
-        String host = MapUtil.getString(properties, "factcore.upload.host", null);
-        String name = MapUtil.getString(properties, "factcore.upload.name", null);
+        String host = MapUtil.getString(properties, PROJECT_PREFIX+".upload.host", null);
+        String name = MapUtil.getString(properties, PROJECT_PREFIX+".upload.name", null);
         File dataDir = new File(tempPath, "sandbox");
         dataDir.mkdirs();
 
