@@ -1,4 +1,5 @@
 scorpio4core
 ============
 
-Runtime engine for Scorpio4
+Core libraries for Scorpio4. Includes default integrations with Sesame, Spring and Camel.
+

@@ -6,14 +6,14 @@
     <parent>
         <groupId>scorpio4</groupId>
         <artifactId>scorpio4master</artifactId>
-        <version>0.02-SNAPSHOT</version>
+        <version>0.03-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>Common</artifactId>
+    <artifactId>scorpio4core</artifactId>
     <packaging>jar</packaging>
 
-    <name>Common</name>
+    <name>Scorpio4 Core</name>
     <organization>
         <name>Fact:Core</name>
     </organization>
@@ -34,8 +34,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:http://54.79.86.22:8080/gitblit/r/Common.git</connection>
-        <developerConnection>scm:git:http://lee@54.79.86.22:8080/gitblit/r/Common.git</developerConnection>
+        <connection>scm:git:https://github.com/troven/scorpio4core.git</connection>
+        <developerConnection>scm:git:https://github.com/troven/scorpio4core.git</developerConnection>
     </scm>
 
     <properties>
