@@ -15,10 +15,12 @@
     <packaging>jar</packaging>
 
     <name>Scorpio4 Core</name>
+    <url>http://www.scorpio4.com</url>
+
     <organization>
         <name>Fact:Core</name>
+        <url>http://www.factcore.com/scorpio4/</url>
     </organization>
-    <url>http://www.scorpio4.com</url>
 
     <developers>
         <developer>
