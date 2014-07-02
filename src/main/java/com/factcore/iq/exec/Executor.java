@@ -109,7 +109,7 @@ public class Executor {
 
     protected Map<String, Future> doExecutables(URI execURI, Map bindings) throws RepositoryException, ExecutionException, IQException, InterruptedException, IOException, AssetNotSupported {
         RepositoryConnection connection = factSpace.getConnection();
-        Map beans = findBeans(connection, (URI) execURI);
+        Map beans = findBeans(connection, execURI);
         if (beans==null|beans.isEmpty()) return null;
         Asset asset = assetRegister.getAsset(execURI.stringValue(), null);
         if (asset==null) return null; //throw new IQException("Missing asset: "+execURI);

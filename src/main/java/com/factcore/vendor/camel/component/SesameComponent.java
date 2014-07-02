@@ -42,13 +42,14 @@ public class SesameComponent extends ClassComponent {
 		boolean autoClose = false;
 		Repository repository = null;
 		if (connection==null && manager!=null) {
+//			if (remaining.equals("")) remaining =
 			repository = manager.getRepository(remaining);
 			connection = repository.getConnection();
 			autoClose = true;
 		}
 		if (connection==null) throw new IQException("Failed to resolve connection: "+remaining);
-		log.debug("Remaining: "+remaining);
-		log.debug("SPARQL Endpoint: "+sparql);
+		log.debug("SPARQL Repository: "+remaining);
+		log.debug("SPARQL Query: "+sparql);
 		return new BeanEndpoint(uri, this, new BeanProcessor(new SesameHandler(connection, sparql, isInferred, maxQueryTime, autoClose ), getCamelContext()));
 	}
 

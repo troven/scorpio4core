@@ -1,0 +1,23 @@
+
+@prefix rdf:		<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:		<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:		<http://www.w3.org/2002/07/owl#> .
+@prefix dc:			<http://purl.org/dc/elements/1.1/> .
+@prefix eg:			<http://www.example.org/> .
+@prefix xsd: 		<http://www.w3.org/2001/XMLSchema#>.
+@prefix acl: 		<http://www.w3.org/ns/auth/acl#> .
+
+@prefix test: 		<direct:test:>.
+@prefix flo: 		<http://factcore.com/core/flo/>.
+@prefix bean: 		<http://factcore.com/core/bean/>.
+@prefix : 		    <urn:Examples:toolchain:api:>.
+
+
+<urn:com.factcore.vendor.spring.HelloWorld>		a	<bean:com.factcore.vendor.spring.HelloWorld>.
+<urn:com.factcore.vendor.spring.HelloWorld>	<urn:com.factcore.vendor.spring.HelloWorld#setGreeting>	"greetings".
+
+<bean:com.factcore.vendor.spring.HelloWorld>	a 	bean:Bean.
+
+<bean:com.factcore.vendor.spring.GreetingsEarthling> a bean:Bean.
+
+<bean:com.factcore.vendor.spring.HelloWorld> bean:new	(<bean:com.factcore.vendor.spring.GreetingsEarthling>).

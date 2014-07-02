@@ -2,7 +2,7 @@ package com.factcore.vendor.camel.component.core;
 
 import com.factcore.iq.exec.Executor;
 import com.factcore.iq.exec.Inferring;
-import com.factcore.iq.exec.Publishing;
+import com.factcore.iq.exec.Templating;
 import com.factcore.iq.exec.Scripting;
 import com.factcore.oops.AssetNotSupported;
 import com.factcore.oops.FactException;
@@ -44,7 +44,7 @@ public class Execute {
 
 		Executor executor = new Executor(coreComponent.getFactSpace());
 		executor.addExecutable(new Scripting());
-		executor.addExecutable(new Publishing());
+		executor.addExecutable(new Templating());
 		executor.addExecutable(new Inferring(coreComponent.getFactSpace()));
 
 		Map<String,Future> executed = executor.execute(uri, headers);

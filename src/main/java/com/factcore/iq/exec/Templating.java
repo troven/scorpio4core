@@ -24,10 +24,10 @@ import java.util.concurrent.TimeoutException;
  * Date  : 17/06/2014
  * Time  : 9:56 PM
  */
-public class Publishing implements Executable {
+public class Templating implements Executable {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public Publishing() {
+    public Templating() {
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Publishing implements Executable {
 }
 
 class NotFutureTemplate implements Future {
-    private final Logger log = LoggerFactory.getLogger(Publishing.class);
+    private final Logger log = LoggerFactory.getLogger(Templating.class);
     SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
     Object result = null;
 

@@ -1,7 +1,7 @@
 package com.factcore.vendor.camel.component.core;
 
 import com.factcore.iq.exec.Executable;
-import com.factcore.iq.exec.Publishing;
+import com.factcore.iq.exec.Templating;
 import com.factcore.vendor.camel.component.CoreComponent;
 
 import java.io.IOException;
@@ -21,6 +21,6 @@ public class Publish extends Base {
 
 	@Override
 	public Executable getExecutable() {
-		return new Publishing();
+		return new Templating();
 	}
 }

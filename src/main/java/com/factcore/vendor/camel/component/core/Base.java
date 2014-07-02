@@ -1,6 +1,7 @@
 package com.factcore.vendor.camel.component.core;
 
 import com.factcore.assets.Asset;
+import com.factcore.assets.AssetHelper;
 import com.factcore.iq.exec.Executable;
 import com.factcore.oops.AssetNotSupported;
 import com.factcore.oops.IQException;
@@ -8,12 +9,14 @@ import com.factcore.vendor.camel.component.CoreComponent;
 import com.factcore.vocab.COMMON;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
+import org.apache.camel.Message;
 import org.apache.camel.util.ExchangeHelper;
 import org.openrdf.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -36,32 +39,50 @@ public abstract class Base {
 		this.uri=uri;
 		asset = coreComponent.getAssetRegister().getAsset(uri,null);
 
-		log.info(getClass().getSimpleName()+"Asset -> "+asset==null?"":asset.getMimeType()+" -> "+uri+"\n"+asset);
+		log.info(getClass().getSimpleName()+":Asset -> "+(asset==null?"not found: ":asset.getMimeType())+" -> "+uri+"\n"+asset);
 	}
 
 	public abstract Executable getExecutable();
 
-
 	@Handler
 	public void execute(Exchange exchange) throws RepositoryException, ExecutionException, IQException, InterruptedException, IOException, AssetNotSupported {
-		Executable exec = getExecutable();
-		Map<String, Object> headers = exchange.getIn().getHeaders();
-		Map body = exchange.getIn().getBody(Map.class);
-		body = body==null?headers:body;
+		Message in = exchange.getIn();
+		Message out = exchange.getOut();
+
+		Map<String, Object> headers = in.getHeaders();
+		Map body = in.getBody(Map.class);
 		String contentType = ExchangeHelper.getContentType(exchange);
-		if (asset!=null) {
-			log.debug("Asset: "+getClass().getSimpleName()+" -> "+uri+"\n\t"+asset.getMimeType());
-			if (asset.getMimeType()==null) asset.setMimeType(COMMON.MIME_TYPE+contentType);
-			Future done = exec.execute(asset, body);
-			exchange.getOut().setBody(done.get());
-			exchange.getOut().setHeaders(headers);
+		String mimeType = COMMON.MIME_TYPE+contentType;
+
+		if (asset==null) {
+			asset = coreComponent.getAssetRegister().getAsset(uri,mimeType);
+			if (asset==null) {
+				log.debug("Missing (" + contentType + ") Raw Asset: " + getClass().getSimpleName() + " -> " + uri);
+				out.setBody(in.getBody());
+				out.setFault(true);
+				return;
+			}
+		}
+		String endpointUri = exchange.getFromEndpoint().getEndpointUri();
+		asset = AssetHelper.getAsset(asset, headers);
+		log.debug("Asset: " + getClass().getSimpleName() + " -> " + uri);
+
+		out.setHeaders(headers);
+		out.setAttachments(in.getAttachments());
+
+		Executable exec = getExecutable();
+		if (exec!=null) {
+			log.debug("Executing: "+ endpointUri);
+			Map parameters = new HashMap();
+			parameters.put("exchange", exchange);
+			parameters.put("header", headers);
+			parameters.put("body", body);
+			Future done = exec.execute(asset, parameters);
+			out.setBody(done.get());
 		} else {
-			asset = coreComponent.getAssetRegister().getAsset(uri,COMMON.MIME_TYPE+contentType);
-			if (asset!=null) log.debug("Found !!");
-			log.debug("Missing ("+contentType+") Asset: "+getClass().getSimpleName()+" -> "+uri);
-			log.debug("\t{}", headers);
-			exchange.getOut().setBody(exchange.getIn().getBody());
-			exchange.getOut().setHeaders(headers);
+			log.debug("Asset Only: "+ endpointUri);
+			out.setBody(asset.getContent());
 		}
 	}
+
 }

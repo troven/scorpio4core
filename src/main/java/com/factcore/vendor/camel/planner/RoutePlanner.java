@@ -1,4 +1,4 @@
-package com.factcore.vendor.camel;
+package com.factcore.vendor.camel.planner;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;

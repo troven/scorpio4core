@@ -22,7 +22,7 @@ public class RDFList {
     private static final Logger log = LoggerFactory.getLogger(RDFList.class);
 
     RepositoryConnection connection = null;
-    URI rdfFirst = null, rdfRest = null, rdfNil = null, context = null;
+    URI LIST = null, rdfFirst = null, rdfRest = null, rdfNil = null, context = null;
     boolean useInferred = true;
     Map seen = new HashMap();
 
@@ -39,20 +39,24 @@ public class RDFList {
         if (context!=null) this.context = vf.createURI(context);
     }
 
-    public Collection<Value> getList(String head, String predicate) throws RepositoryException {
+	public Collection<Value> getList(String head, String predicate) throws RepositoryException {
         ValueFactory vf = connection.getValueFactory();
         return getList(vf.createURI(head),vf.createURI(predicate));
     }
 
     public Collection<Value> getList(Resource head, URI predicate) throws RepositoryException {
         List<Value> list = new ArrayList();
-        log.debug("getList: "+head+" -> "+predicate+" @ "+context);
-        RepositoryResult<Statement> statements = connection.getStatements(head, predicate, null, useInferred, context);
-        while (statements.hasNext()) {
+        log.debug("\tgetList: "+head+" -> "+predicate+" @ "+context);
+        RepositoryResult<Statement> statements = null;
+
+	    if (context==null) statements = connection.getStatements(head, predicate, LIST, useInferred);
+		else statements = connection.getStatements(head, predicate, LIST, useInferred, context);
+
+		while (statements.hasNext()) {
             Statement statement = statements.next();
-            log.debug("Found: "+statement);
             Object object = statement.getObject();
             if (object instanceof Resource) {
+	            log.trace("\t\titem: "+statement);
                 addToList(list, (Resource) object);
             }
         }
@@ -62,12 +66,14 @@ public class RDFList {
     protected void addToList(Collection<Value> list, Resource head) throws RepositoryException {
         if (seen.containsKey(head.stringValue())) return;
         seen.put(head.stringValue(), true);
-        RepositoryResult<Statement> statements = connection.getStatements(head, rdfFirst, null, useInferred, context);
+
+        RepositoryResult<Statement> statements = getStatements(head,rdfFirst);
         while (statements.hasNext()) {
             Statement statement = statements.next();
             list.add(statement.getObject());
+	        log.trace("\t\t\t+"+statement);
         }
-        RepositoryResult<Statement> nexts = connection.getStatements(head, rdfRest, null, useInferred, context);
+        RepositoryResult<Statement> nexts = getStatements(head,rdfRest);
         while (nexts.hasNext()) {
             Statement statement = nexts.next();
             Object object = statement.getObject();
@@ -76,5 +82,12 @@ public class RDFList {
             }
         }
     }
+
+	protected RepositoryResult<Statement> getStatements(Resource head, URI predicate) throws RepositoryException {
+		if (context==null)
+			return connection.getStatements(head, predicate, null, useInferred);
+		else
+			return connection.getStatements(head, predicate, null, useInferred, context);
+	}
 
 }

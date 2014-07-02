@@ -1,5 +1,6 @@
 package com.factcore.vendor.camel
 
+import com.factcore.vendor.camel.planner.RoutePlanner
 import org.junit.Test
 /**
  * Scorpio (c) 2014
