@@ -2,7 +2,6 @@ package com.factcore.iq
 
 import com.factcore.assets.Asset
 import com.factcore.iq.exec.Templating
-
 /**
  * Fact:Core (c) 2014
  * Module: com.factcore.iq
@@ -12,14 +11,15 @@ import com.factcore.iq.exec.Templating
  *
  *
  */
-class TemplatingTest extends GroovyTestCase {
+class PublishingTest extends GroovyTestCase {
 
     void testWith() {
-        def publisher = new Templating(new Asset("hello \${greeting}"));
-        def future = publisher.with([ "greeting": "world"])
+        def publisher = new Templating();
+	    Asset template = new Asset("hello \${greeting}");
+        def future = publisher.execute(template, [ "greeting": "world"])
         assert future!=null;
-        Writable template = future.get();
-        assert template!=null;
-        assert template.toString().equals("hello world");
+        Writable writable = future.get();
+        assert writable!=null;
+        assert writable.toString().equals("hello world");
     }
 }

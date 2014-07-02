@@ -1,6 +1,8 @@
 package com.factcore.iq
 
+import com.factcore.assets.Asset
 import com.factcore.iq.exec.SPARQLing
+import com.factcore.vocab.COMMON
 import org.openrdf.repository.http.HTTPRepository
 /**
  * Fact:Core (c) 2014
@@ -16,8 +18,9 @@ class SPARQLingTest extends GroovyTestCase {
     void testWith() {
         def repository = new HTTPRepository("http://127.0.0.1:8080/openrdf-sesame/", "FactTools");
         def connection = repository.getConnection();
-        def sparqling = new SPARQLing(connection, "SELECT DISTINCT ?o WHERE {?s ?p ?o}");
-        def future = sparqling.with(["hello": "world"])
+        def sparqling = new SPARQLing(connection);
+	    Asset query = new Asset("SELECT DISTINCT ?o WHERE {?s ?p ?o}", COMMON.MIME_SPARQL);
+        def future = sparqling.execute(query, ["hello": "world"])
         assert future!=null;
         def result = future.get();
         assert result!=null;

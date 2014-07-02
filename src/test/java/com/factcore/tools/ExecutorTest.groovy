@@ -20,7 +20,9 @@ class ExecutorTest extends GroovyTestCase {
         def connection = repository.getConnection();
 
         def toolChain = new Executor(new FactSpace(connection, "urn:BlankProject:"));
-        def executed = toolChain.run("urn:BlankProject:")
+        def executed = toolChain.run("urn:BlankProject:", [:])
+	    assert executed!=null;
+	    println "Executed: "+executed;
         connection.close();
         repository.shutDown();
     }

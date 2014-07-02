@@ -65,7 +65,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	@Override
 	public int loadBeanDefinitions(String resource) throws BeanDefinitionStoreException {
 		try {
-			return read(connection, resource);
+			return read(resource);
 		} catch (RepositoryException e) {
 			throw new BeanDefinitionStoreException("Repository Error: "+e.getMessage(),e);
 		} catch (ClassNotFoundException e) {
@@ -88,10 +88,10 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 
 	public int read(RepositoryConnection connection, Resource resource) throws RepositoryException, IOException, ClassNotFoundException {
 		Assert.notNull(connection, "RepositoryConnection must not be null");
-		return read(connection, resource.getURI().toString());
+		return read(resource.getURI().toString());
 	}
 
-	private int read(RepositoryConnection connection, String resource) throws RepositoryException, ClassNotFoundException {
+	private int read(String resource) throws RepositoryException, ClassNotFoundException {
 		int count = 0;
 		URI resourceURI = resource==null?null:vf.createURI(resource);
 		log.debug("RDF Bean: "+resource);

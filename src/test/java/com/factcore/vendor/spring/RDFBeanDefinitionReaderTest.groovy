@@ -40,7 +40,8 @@ class RDFBeanDefinitionReaderTest extends GroovyTestCase {
 		ApplicationContext applicationContext = new GenericApplicationContext();
 
 		RDFBeanDefinitionReader beanie = new RDFBeanDefinitionReader(connection, applicationContext);
-		BeanDefinition beanDef = beanie.register("bean:com.factcore.vendor.spring.HelloWorld");
+		assert 0 < beanie.loadBeanDefinitions("bean:com.factcore.vendor.spring.HelloWorld");
+		BeanDefinition beanDef = beanie.beanFactory.getBeanDefinition("bean:com.factcore.vendor.spring.HelloWorld");
 		println "Registered: "+beanDef;
 	}
 
