@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>scorpio4</groupId>
+        <groupId>com.scorpio4</groupId>
         <artifactId>scorpio4master</artifactId>
         <version>0.03-SNAPSHOT</version>
+        <relativePath>../scorpio4master</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -17,7 +18,7 @@
     <organization>
         <name>Fact:Core</name>
     </organization>
-    <url>http://www.com.factcore.com</url>
+    <url>http://www.scorpio4.com</url>
 
     <developers>
         <developer>
@@ -32,10 +33,17 @@
             <timezone>+11</timezone>
         </developer>
     </developers>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <scm>
+        <url>://github.com/troven/scorpio4core.git</url>
         <connection>scm:git:https://github.com/troven/scorpio4core.git</connection>
-        <developerConnection>scm:git:https://github.com/troven/scorpio4core.git</developerConnection>
     </scm>
 
     <properties>
