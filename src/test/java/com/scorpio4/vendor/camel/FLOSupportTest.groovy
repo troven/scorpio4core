@@ -1,21 +1,21 @@
 package com.scorpio4.vendor.camel
 
-import com.factcore.vendor.camel.planner.RoutePlanner
+import com.scorpio4.vendor.camel.planner.FLOSupport
 import org.junit.Test
 /**
  * Scorpio (c) 2014
- * Module: com.factcore.vendor.camel
+ * Module: com.scorpio4.vendor.camel
  * User  : lee
  * Date  : 19/06/2014
  * Time  : 11:46 AM
  *
  *
  */
-class RoutePlannerTest extends groovy.util.GroovyTestCase{
+class FLOSupportTest extends groovy.util.GroovyTestCase{
 
 	@Test
 	void testRoute() {
-		RoutePlanner routing = new RoutePlanner();
+		FLOSupport routing = new FLOSupport();
 		routing.start()
 		def plan = routing.plan("direct://test", "file://temp/to.test/");
 		assert plan!=null;

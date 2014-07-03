@@ -1,12 +1,12 @@
 package com.scorpio4.tools
 
-import com.factcore.fact.FactSpace
-import com.factcore.iq.exec.Executor
+import com.scorpio4.fact.FactSpace
+import com.scorpio4.iq.exec.Executor
 import org.openrdf.repository.http.HTTPRepository
 
 /**
- * Fact:Core (c) 2014
- * Module: com.factcore.tools
+ * Scorpio4 (c) 2014
+ * Module: com.scorpio4.tools
  * User  : lee
  * Date  : 18/06/2014
  * Time  : 4:47 PM

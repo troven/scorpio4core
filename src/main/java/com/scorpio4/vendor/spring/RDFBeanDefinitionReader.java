@@ -15,17 +15,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
-import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.beans.factory.support.*;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Scorpio (c) 2014
@@ -43,17 +46,32 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	RepositoryConnection connection;
 	ValueFactory vf = null;
 	BeanConverter converter = new BeanConverter();
+	protected Map reserved = new HashMap();
+	RDFList rdfList;
+
+	public RDFBeanDefinitionReader(RepositoryConnection connection) {
+		this(connection, new GenericApplicationContext());
+	}
 
 	public RDFBeanDefinitionReader(RepositoryConnection connection, BeanDefinitionRegistry registry) {
 		super(registry);
 		Assert.notNull(connection, "RepositoryConnection can't be NULL");
 		this.connection=connection;
 		vf = connection.getValueFactory();
+		rdfList = new RDFList(connection);
 		setBeanClassLoader(Thread.currentThread().getContextClassLoader());
+		defaultReservedWords();
     }
 
 	public void setIdentity(String ontology) {
 		this.ontology=ontology;
+	}
+
+	public void defaultReservedWords() {
+		reserved.put("new", Collection.class);
+		reserved.put("dependsOn", Collection.class);
+		reserved.put("new", Collection.class);
+		reserved.put("new", Collection.class);
 	}
 
 
@@ -87,28 +105,66 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	}
 
 	public int read(RepositoryConnection connection, Resource resource) throws RepositoryException, IOException, ClassNotFoundException {
-		Assert.notNull(connection, "RepositoryConnection must not be null");
+		Assert.notNull(connection, "RepositoryConnection must not be NULL");
 		return read(resource.getURI().toString());
 	}
 
 	private int read(String resource) throws RepositoryException, ClassNotFoundException {
 		int count = 0;
 		URI resourceURI = resource==null?null:vf.createURI(resource);
-		log.debug("RDF Bean: "+resource);
-		RepositoryResult<Statement> beans = connection.getStatements( resourceURI, RDF.TYPE, vf.createURI(BEAN), true);
-		while(beans.hasNext()) {
-			Statement bean = beans.next();
-			String beanClass = bean.getSubject().stringValue();
-			AbstractBeanDefinition beanDefinition = defineBean(bean);
-			getRegistry().registerBeanDefinition(beanClass, beanDefinition);
-			log.debug("Register: "+beanClass+" -> "+beanDefinition);
-			if (beanDefinition!=null) count++;
+
+		if (resource.startsWith("bean:")) {
+			count+= readPrototype(resourceURI);
+		} else {
+			count+= readSingleton(resourceURI);
 		}
 		return count;
 
 	}
 
-	private AbstractBeanDefinition defineBean(Statement bean) throws RepositoryException, ClassNotFoundException {
+	private int readSingleton(URI resourceURI) throws RepositoryException, ClassNotFoundException {
+		int count = 0;
+		log.debug("Bean Singleton: "+resourceURI);
+		RepositoryResult<Statement> beans = connection.getStatements( resourceURI, RDF.TYPE, null, true);
+		while(beans.hasNext()) {
+			Statement bean = beans.next();
+			boolean isBean = bean.getObject().stringValue().startsWith("bean:");
+			boolean knownBean = getRegistry().containsBeanDefinition(bean.getSubject().stringValue());
+			if (!knownBean && isBean && bean.getObject() instanceof org.openrdf.model.Resource) {
+				org.openrdf.model.Resource classURI = (org.openrdf.model.Resource) bean.getObject();
+				count+= readBean(bean.getSubject(), classURI, BeanDefinition.SCOPE_SINGLETON);
+			}
+		}
+		return count;
+	}
+
+	private int readPrototype(org.openrdf.model.Resource resourceURI) throws RepositoryException, ClassNotFoundException {
+		return readBean(resourceURI, resourceURI, BeanDefinition.SCOPE_PROTOTYPE);
+	}
+
+	private int readBean(org.openrdf.model.Resource resource, org.openrdf.model.Resource classURI, String scope) throws RepositoryException, ClassNotFoundException {
+		int count = 0;
+		log.debug("readBean("+scope+") -> "+ resource+" @ "+classURI);
+		RepositoryResult<Statement> beans = connection.getStatements(classURI, RDF.TYPE, vf.createURI(BEAN), true);
+		while(beans.hasNext()) {
+			Statement bean = beans.next();
+			String beanClass = bean.getSubject().stringValue();
+			if (!getRegistry().containsBeanDefinition(resource.stringValue())) {
+				AbstractBeanDefinition beanDefinition = defineBean(resource, bean);
+				beanDefinition.setScope(scope);
+				if (beanDefinition!=null) {
+					getRegistry().registerBeanDefinition(resource.stringValue(), beanDefinition);
+					log.debug(count+") Registered: "+resource+" @ "+beanClass+" -> "+beanDefinition);
+					count++;
+				}
+			} else {
+//s				log.trace("Re-Register: " + beanClass);
+			}
+		}
+		return count;
+	}
+
+	private AbstractBeanDefinition defineBean(org.openrdf.model.Resource beanURI, Statement bean) throws RepositoryException, ClassNotFoundException {
 		String beanClass = bean.getSubject().stringValue();
 		AbstractBeanDefinition defineBean = defineBean(beanClass);
 
@@ -116,7 +172,6 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		 * Scalar Definitions
 		 */
 
-		org.openrdf.model.Resource beanURI = bean.getSubject();
 		RDFScalars rdfScalars= new RDFScalars(connection);
 
 		Literal lazyInit = rdfScalars.getLiteral(beanURI, createURI( "lazyInit"), XSD.BOOLEAN);
@@ -130,6 +185,12 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 
 		Literal lenient = rdfScalars.getLiteral(beanURI, createURI( "lenient"), XSD.BOOLEAN);
 		if (lenient!=null) defineBean.setLenientConstructorResolution(lenient.booleanValue());
+
+		Literal singleton = rdfScalars.getLiteral(beanURI, createURI( "singleton"), XSD.BOOLEAN);
+		boolean isSingleton = connection.hasStatement(bean.getSubject(), RDF.TYPE, bean.getSubject(), false);
+		if ( (singleton!=null && singleton.booleanValue()) || isSingleton) {
+			defineBean.setScope(BeanDefinition.SCOPE_SINGLETON);
+		}
 
 		Literal enforceInit = rdfScalars.getLiteral(beanURI, createURI( "enforceInit"), XSD.BOOLEAN);
 		if (enforceInit!=null) defineBean.setEnforceInitMethod(enforceInit.booleanValue());
@@ -152,7 +213,6 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		 * Vector Definitions
 		 */
 
-		RDFList rdfList = new RDFList(connection);
 		// constructor arguments
 		int i=0;
 		URI newPredicate = createURI( "new");
@@ -166,6 +226,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 			Value arg = rdfScalars.getValue(beanURI, newPredicate);
 			if (arg!=null) addToArguments(argValues, 0, arg);
 		}
+//		log.debug("Define: "+beanClass+" -> "+argValues);
 		defineBean.setConstructorArgumentValues(argValues);
 
 		// dependsOn
@@ -180,6 +241,13 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 			defineBean.setDependsOn(dependsOn);
 		}
 
+		MutablePropertyValues propertyValues = defineBeanProperties(beanURI, defineBean);
+		log.debug("Defined: "+beanClass+" @ "+defineBean);
+		log.debug("\tproperties:"+Arrays.toString(propertyValues.getPropertyValues()));
+		return defineBean;
+	}
+
+	protected MutablePropertyValues defineBeanProperties(org.openrdf.model.Resource beanURI, AbstractBeanDefinition defineBean) throws RepositoryException {
 		// properties
 		MutablePropertyValues propertyValues = defineBean.getPropertyValues();
 		RepositoryResult<Statement> statements = connection.getStatements(beanURI, null, null, false);
@@ -187,11 +255,15 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 			Statement next = statements.next();
 			URI pURI = next.getPredicate();
 			if (pURI.toString().startsWith(getIdentity())) {
-				addToProperties(propertyValues, pURI.getLocalName(), next.getObject());
+				String localName = pURI.getLocalName();
+				boolean isReserved = reserved.containsKey(localName);
+				log.debug("\tProperty: "+localName+" = "+next.getObject()+(isReserved?" RESERVED":""));
+				if (!isReserved) {
+					addToProperties(propertyValues, localName, next.getObject());
+				}
 			}
 		}
-		log.debug("Defined: "+beanClass+" @ "+defineBean);
-		return defineBean;
+		return propertyValues;
 	}
 
 	private URI createURI(String localPart) {
@@ -205,8 +277,11 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 			argValues.addIndexedArgumentValue(ix++, new RuntimeBeanReference(uri));
 		} else if (value instanceof Literal) {
 			Literal literal = (Literal)value;
-			log.debug("\tNew: "+literal);
-			Object o = converter.convertToType(literal.stringValue(), literal.getDatatype().toString());
+			URI datatype = literal.getDatatype();
+			if (datatype==null) datatype = vf.createURI(XSD.STRING);
+			log.debug("\tNew: "+literal+" @ "+datatype);
+
+			Object o = converter.convertToType(literal.stringValue(), datatype.toString());
 			argValues.addIndexedArgumentValue(ix++, o, o.getClass().getCanonicalName());
 		} else {
 			log.debug("\tinit? "+value);
@@ -217,12 +292,12 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	private void addToProperties(MutablePropertyValues propertyValues, String local, Value value) {
 		if (value instanceof URI) {
 			String uri = value.stringValue();
-			log.debug("\tRef: "+uri);
+			log.debug("\tNew Ref: "+uri);
 			propertyValues.add(local, new RuntimeBeanReference(uri));
 		} else if (value instanceof Literal) {
 			Literal literal = (Literal)value;
-			log.debug("\tNew: "+literal);
 			Object o = converter.convertToType(literal.stringValue(), literal.getDatatype().toString());
+			log.debug("\tNew: "+literal+" -> "+o);
 			propertyValues.add(local, o);
 		} else {
 			log.debug("\tinit? "+value);
@@ -233,12 +308,16 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		if (beanClass.startsWith("bean:")) beanClass = beanClass.substring(5);
 		GenericBeanDefinition beanDef = new GenericBeanDefinition();
 		beanDef.setBeanClassName(beanClass);
+		beanDef.setNonPublicAccessAllowed(true);
 		beanDef.setPropertyValues(new MutablePropertyValues());
-		beanDef.setScope(beanDef.SCOPE_DEFAULT);
+		beanDef.setScope(beanDef.SCOPE_PROTOTYPE);
 		beanDef.setLazyInit(true);
 		beanDef.setSynthetic(false);
+		beanDef.setAutowireMode(beanDef.AUTOWIRE_CONSTRUCTOR);
 		beanDef.setAbstract(false);
+		beanDef.setLenientConstructorResolution(true);
 		beanDef.setAutowireCandidate(true);
+		beanDef.setDependencyCheck(RootBeanDefinition.DEPENDENCY_CHECK_NONE);
 		log.debug("Resolving: "+beanClass);
 		beanDef.resolveBeanClass(getBeanClassLoader());
 		return beanDef;
@@ -252,5 +331,17 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	@Override
 	public String getIdentity() {
 		return ontology;
+	}
+
+	public Object getBean(String name) {
+		BeanDefinitionRegistry registry = getRegistry();
+		if (registry instanceof AbstractApplicationContext) {
+			log.debug("getBean: "+name+" from "+((AbstractApplicationContext) registry).getClassLoader());
+			AbstractApplicationContext applicationContext = (AbstractApplicationContext)registry;
+			log.debug("Beans: " + Arrays.toString(applicationContext.getBeanDefinitionNames()));
+			Object bean = applicationContext.getBean(name);
+			return bean;
+		}
+		return null;
 	}
 }

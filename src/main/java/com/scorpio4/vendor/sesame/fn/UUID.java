@@ -1,6 +1,6 @@
 package com.scorpio4.vendor.sesame.fn;
  /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained

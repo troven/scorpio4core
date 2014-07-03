@@ -22,7 +22,7 @@ import java.util.Map;
  * Date  : 24/06/2014
  * Time  : 10:29 PM
  */
-public class Any23Handler {
+public class Any23Handler  {
 	static protected final Logger log = LoggerFactory.getLogger(Any23Handler.class);
 
 	public Any23Handler(Map<String, Object> params) {

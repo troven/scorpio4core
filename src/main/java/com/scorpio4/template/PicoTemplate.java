@@ -1,6 +1,6 @@
 package com.scorpio4.template;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  * User: lee
  *
  * 'PicoTemplate' populates a template string with instance values from a model Map
@@ -89,7 +89,7 @@ public class PicoTemplate {
         try {
             nodes.add(Ognl.parseExpression($node));
         } catch (OgnlException e) {
-            log.debug("urn:factcore:output:template:pico:oops:invalid-expression#"+$node,e);
+            log.debug("urn:scorpio4:output:template:pico:oops:invalid-expression#"+$node,e);
         }
     }
 

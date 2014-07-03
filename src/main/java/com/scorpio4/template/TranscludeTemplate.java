@@ -1,6 +1,6 @@
 package com.scorpio4.template;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  * User: lee
  * Date: 18/02/13
  * Time: 9:07 AM
@@ -41,7 +41,7 @@ public class TranscludeTemplate extends PicoTemplate {
 			setTokens("{{", "}}");
 			parse(template);
 		} catch (OgnlException e) {
-			throw new FactException("urn:factcore:output:template:oops:invalid#"+e.getMessage(), e);
+			throw new FactException("urn:scorpio4:output:template:oops:invalid#"+e.getMessage(), e);
 		}
 	}
 

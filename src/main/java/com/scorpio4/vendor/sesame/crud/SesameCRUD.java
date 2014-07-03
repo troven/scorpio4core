@@ -11,6 +11,7 @@ import com.scorpio4.oops.ConfigException;
 import com.scorpio4.oops.FactException;
 import com.scorpio4.vocab.COMMON;
 import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.vendor.sesame.crud
  * User  : lee
  * Date  : 17/06/2014
@@ -50,15 +51,25 @@ public class SesameCRUD implements CRUD {
         return connection;
     }
 
+	public Asset getAsset(String queryURI, Map model) throws FactException, IOException, ConfigException {
+		Asset sparqlAsset = assetRegister.getAsset(queryURI, COMMON.MIME_SPARQL);
+		Asset asset = AssetHelper.getAsset(sparqlAsset, model);
+		return asset;
+	}
+
+	public void close() throws RepositoryException {
+		this.connection.close();
+	}
+
     @Override
     public Model create(Map model) throws FactException {
-        return null;
+//        return new SesameCreate(this,asset).execute();
+	    return null;
     }
 
     @Override
     public Collection<Map> read(String queryURI, Map model) throws FactException, IOException, ConfigException {
-        Asset sparqlAsset = assetRegister.getAsset(queryURI, COMMON.MIME_SPARQL);
-        Asset asset = AssetHelper.getAsset(sparqlAsset, model);
+        Asset asset = getAsset(queryURI, model);
         log.info("READ: "+asset.getContent());
         return new SesameRead(this,asset.toString()).execute();
     }

@@ -1,6 +1,6 @@
 package com.scorpio4.crud;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -22,7 +22,7 @@ import com.scorpio4.util.Identifiable;
 import java.util.Map;
 
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  * User: lee
  * Date: 14/01/13
  * Time: 4:54 AM

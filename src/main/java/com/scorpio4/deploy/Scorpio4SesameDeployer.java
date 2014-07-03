@@ -1,6 +1,6 @@
 package com.scorpio4.deploy;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -106,7 +106,7 @@ public class Scorpio4SesameDeployer implements Identifiable {
 					getConnection().add(mimeURI, subClassOf, textType, provenanceContext);
 					getConnection().add(mimeURI, a, textType, provenanceContext);
 					getConnection().add(mimeURI, rdfsLabel, values.createLiteral(sef.getLanguageName()), provenanceContext);
-					log.debug("Scripting Abilities: "+sef.getLanguageName()+" --> "+mimeURI.toString());
+					log.trace("\t Script: "+sef.getLanguageName()+" --> "+mimeURI.toString());
 					for(int y=0;y<extensions.size();y++) {
 						getConnection().add(mimeURI, mimeExtension, values.createLiteral(extensions.get(y)));
 						extension2type.put(extensions.get(y), mimeURI.toString());
@@ -331,7 +331,7 @@ public class Scorpio4SesameDeployer implements Identifiable {
 
 //	public void setFinder(String uri) throws ConfigException, FactException {
 //        setProvenance(uri);
-//		FactSource core = this.factCore.getFactSource(uri);
+//		FactSource core = this.scorpio4.getFactSource(uri);
 //		if (core==null || !(core instanceof SesameFactSource)) throw new FactException("Finder is not Sesame");
 //		this.connection = ((SesameFactSource)core).getConnection();
 //	}

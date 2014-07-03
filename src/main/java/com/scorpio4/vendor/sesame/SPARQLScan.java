@@ -1,6 +1,6 @@
 package com.scorpio4.vendor.sesame;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  * User: lee
  *
  * Scans SPARQL and determines the variable bindings, and with their possible RDF types

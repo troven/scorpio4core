@@ -13,7 +13,7 @@ import java.io.IOException;
  * Date  : 23/06/2014
  * Time  : 3:28 AM
  */
-public class Infer extends Base{
+public class Infer extends Base {
 
 	public Infer(CoreComponent coreComponent, String substring) throws IOException {
 		super(coreComponent,substring);

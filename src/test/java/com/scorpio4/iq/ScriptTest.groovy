@@ -1,14 +1,14 @@
 package com.scorpio4.iq
 
-import com.factcore.assets.Asset
-import com.factcore.iq.exec.Scripting
-import com.factcore.vocab.COMMON
+import com.scorpio4.assets.Asset
+import com.scorpio4.iq.exec.Scripting
+import com.scorpio4.vocab.COMMON
 import org.junit.Test
 
 import java.util.concurrent.Future
 /**
- * Fact:Core (c) 2014
- * Module: com.factcore.iq
+ * Scorpio4 (c) 2014
+ * Module: com.scorpio4.iq
  * User  : lee
  * Date  : 17/06/2014
  * Time  : 9:44 PM

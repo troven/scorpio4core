@@ -1,6 +1,6 @@
 package com.scorpio4.util.io;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -49,7 +49,7 @@ public class JarArchiver {
 
 	public void open(File file) throws IOException {
 		addAttribute(Attributes.Name.MANIFEST_VERSION, "1.0");
-        addAttribute(Attributes.Name.IMPLEMENTATION_VENDOR, "Fact:Core");
+        addAttribute(Attributes.Name.IMPLEMENTATION_VENDOR, "Scorpio4");
         addAttribute(Attributes.Name.IMPLEMENTATION_VENDOR_ID, file.toURI().toString());
 		jarOutputStream = new JarOutputStream(new FileOutputStream(file), manifest);
 	}

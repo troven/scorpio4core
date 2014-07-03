@@ -1,6 +1,6 @@
 package com.scorpio4.vocab;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -17,7 +17,7 @@ package com.scorpio4.vocab;
  *
  */
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  *
  * Define namespaces for essential core vocabularies
  *
@@ -65,11 +65,10 @@ public interface COMMON {
     public static final String MIME_CSV = MIME_TYPE+"text/csv";
     public static final String MIME_XML = MIME_TYPE+"application/xml";
 
-    //    public static final String ASSETS = "urn:factcore:assets:";
-    public static final String SELF = "http://factcore.com/";
+    public static final String SELF = "http://scorpio4.com/";
 
     public static final String CORE = SELF+"core/";
     public static final String FN = SELF+"vendor/sesame/fn/";
 
-	public static final String CAMEL = "http://factcore.com/core/camel/";
+	public static final String CAMEL_FLO = "http://scorpio4.com/core/flo/";
 }

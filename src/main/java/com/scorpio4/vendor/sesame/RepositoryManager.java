@@ -1,6 +1,6 @@
 package com.scorpio4.vendor.sesame;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -41,7 +41,7 @@ import java.net.MalformedURLException;
 import java.util.Collection;
 
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  * User: lee
  * Date: 18/01/13
  * Time: 7:07 PM
@@ -76,6 +76,7 @@ public class RepositoryManager extends LocalRepositoryManager implements Identif
 	}
 
 	public Repository createRepository(String repositoryId) throws RepositoryException, RepositoryConfigException {
+		log.debug("createRepository() "+repositoryId);
 		Repository repository = super.createRepository(repositoryId);
 		if (repository!=null) return repository;
 		return null;

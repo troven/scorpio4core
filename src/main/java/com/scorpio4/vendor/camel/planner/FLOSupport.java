@@ -17,16 +17,16 @@ import java.util.Map;
  * Date  : 19/06/2014
  * Time  : 8:22 AM
  */
-public class RoutePlanner {
+public class FLOSupport {
 	protected CamelContext context;
 	protected int count = 0;
 
-	public RoutePlanner() throws Exception {
+	public FLOSupport() throws Exception {
 		this.context = new DefaultCamelContext();
 		this.context.start();
 	}
 
-	public RoutePlanner(CamelContext context) {
+	public FLOSupport(CamelContext context) {
 		this.context=context;
 	}
 

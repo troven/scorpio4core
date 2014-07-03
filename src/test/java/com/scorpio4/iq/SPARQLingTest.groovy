@@ -1,12 +1,12 @@
 package com.scorpio4.iq
 
-import com.factcore.assets.Asset
-import com.factcore.iq.exec.SPARQLing
-import com.factcore.vocab.COMMON
+import com.scorpio4.assets.Asset
+import com.scorpio4.iq.exec.SPARQLing
+import com.scorpio4.vocab.COMMON
 import org.openrdf.repository.http.HTTPRepository
 /**
- * Fact:Core (c) 2014
- * Module: com.factcore.iq
+ * Scorpio4 (c) 2014
+ * Module: com.scorpio4.iq
  * User  : lee
  * Date  : 17/06/2014
  * Time  : 10:22 PM

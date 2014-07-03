@@ -1,11 +1,11 @@
 package com.scorpio4.vendor.sesame.fn
 
-import com.factcore.util.Stopwatch
-import com.factcore.vocab.COMMON
+import com.scorpio4.util.Stopwatch
+import com.scorpio4.vocab.COMMON
 import org.junit.Test
 
 /**
- * Fact:Core (c) 2012
+ * Scorpio4 (c) 2012
  * User: lee
  * Date: 2/08/13
  * Time: 3:19 PM

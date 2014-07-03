@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.assets
  * User  : lee
  * Date  : 18/06/2014

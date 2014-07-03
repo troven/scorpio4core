@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.template
  * User  : lee
  * Date  : 17/06/2014

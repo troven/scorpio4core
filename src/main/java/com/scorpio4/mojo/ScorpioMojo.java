@@ -25,7 +25,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.maven
  * User  : lee
  * Date  : 16/06/2014
@@ -50,7 +50,7 @@ public abstract class ScorpioMojo extends AbstractMojo {
     public void initialize() throws MojoFailureException, RepositoryException, MalformedURLException, RepositoryConfigException {
         Hashtable properties = getProject().getProperties();
         this.identity = MapUtil.getString(properties, PROJECT_PREFIX+".id", null);
-        if (this.identity==null) throw new MojoFailureException("Missing <factcore.id>");
+        if (this.identity==null) throw new MojoFailureException("Missing <scorpio4.id>");
 
         this.srcPath = MapUtil.getFile(properties, PROJECT_PREFIX+".src.path", getProject().getBasedir() );
         this.resourcesPath = MapUtil.getFile(properties, PROJECT_PREFIX+".resources.path", srcPath );

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * FactCore (c) 2013
+ * scorpio4 (c) 2013
  * Module: com.scorpio4.fact.stream
  * User  : lee
  * Date  : 25/10/2013

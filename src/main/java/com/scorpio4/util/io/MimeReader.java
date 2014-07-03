@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 /**
- * Fact:Core (c) 2013
+ * Scorpio4 (c) 2013
  * Module: com.scorpio4.util.io
  * User  : lee
  * Date  : 25/03/2014

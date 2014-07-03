@@ -29,21 +29,21 @@ import java.util.Collection;
  * Date  : 21/06/2014
  * Time  : 5:58 PM
  */
-public class RDFRoutePlanner extends RoutePlanner {
-	static protected final Logger log = LoggerFactory.getLogger(RDFRoutePlanner.class);
+public class CamelFLO extends FLOSupport {
+	static protected final Logger log = LoggerFactory.getLogger(CamelFLO.class);
 
 	FactSpace factSpace = null;
 	int count = 0;
 	AssetRegister assetRegister = null;
-	String baseURI = COMMON.CAMEL;
+	String baseURI = COMMON.CAMEL_FLO;
 	URI TO = null;
 
-	public RDFRoutePlanner(FactSpace factSpace) throws Exception {
+	public CamelFLO(FactSpace factSpace) throws Exception {
 		super();
 		init(factSpace);
 	}
 
-	public RDFRoutePlanner(CamelContext camelContext, FactSpace factSpace) throws Exception {
+	public CamelFLO(CamelContext camelContext, FactSpace factSpace) throws Exception {
 		super(camelContext);
 		init(factSpace);
 	}
@@ -112,7 +112,7 @@ public class RDFRoutePlanner extends RoutePlanner {
 		}
 	}
 
-	protected ProcessorDefinition tryResource(final RepositoryConnection connection, final ProcessorDefinition fromRoute, final Resource from) throws RepositoryException, CamelException {
+	protected ProcessorDefinition tryResource(final RepositoryConnection connection, final ProcessorDefinition fromRoute, final Resource from) throws RepositoryException, CamelException, ClassNotFoundException {
 		log.debug("Plan From: "+from+" -> "+fromRoute);
 
 		RepositoryResult<Statement> plannedRoutes = connection.getStatements(from, null, null, false);
@@ -129,7 +129,7 @@ public class RDFRoutePlanner extends RoutePlanner {
 		return fromRoute;
 	}
 
-	protected ProcessorDefinition tryAction(RepositoryConnection connection, ProcessorDefinition from, Resource _to, URI predicate, String action) throws RepositoryException, CamelException {
+	protected ProcessorDefinition tryAction(RepositoryConnection connection, ProcessorDefinition from, Resource _to, URI predicate, String action) throws RepositoryException, CamelException, ClassNotFoundException {
 		String to = _to.stringValue();
 		log.debug(action+" action: -> "+to);
 
@@ -201,6 +201,14 @@ public class RDFRoutePlanner extends RoutePlanner {
 			from = from.sort(new RDFBasedExpression(connection, to));
 		} else if (action.equals("resequence")) {
 			from = from.resequence(new RDFBasedExpression(connection, to));
+		} else if (action.equals("convertBodyTo") && action.equals("asa")) {
+			if (to.startsWith("bean:")) {
+				String type = to.substring(5);
+				from = from.convertBodyTo(Class.forName(type));
+			} else if (to.startsWith("classpath:")) {
+				String type = to.substring(9);
+				from = from.convertBodyTo(Class.forName(type));
+			}
 		} else if (action.equals("recipientList")) {
 			from = from.recipientList(new RDFBasedExpression(connection, to));
 		} else if (action.equals("loop")) {
@@ -222,7 +230,7 @@ public class RDFRoutePlanner extends RoutePlanner {
 		return from;
 	}
 
-	private ProcessorDefinition doAction(RepositoryConnection connection, ProcessorDefinition from, Resource _to, URI predicate) throws RepositoryException, CamelException {
+	private ProcessorDefinition doAction(RepositoryConnection connection, ProcessorDefinition from, Resource _to, URI predicate) throws RepositoryException, CamelException, ClassNotFoundException {
 		RDFList toList = new RDFList(connection);
 		Collection<Value> pipeline = toList.getList(_to , predicate);
 		if (pipeline.isEmpty()) {
@@ -243,15 +251,15 @@ class RDFBasedPredicate implements Predicate {
 	public RDFBasedPredicate(RepositoryConnection connection, String to) {
 		this.connection=connection;
 		refExpression = ExpressionBuilder.refExpression(to);
-		RDFRoutePlanner.log.debug("Predicate: "+to+" -> "+refExpression);
+		CamelFLO.log.debug("Predicate: "+to+" -> "+refExpression);
 	}
 
 	@Override
 	public boolean matches(Exchange exchange) {
-		RDFRoutePlanner.log.debug("refExpression: "+refExpression);
+		CamelFLO.log.debug("refExpression: "+refExpression);
 		if (refExpression==null) return false;
 		Predicate predicate = PredicateBuilder.toPredicate(refExpression);
-		RDFRoutePlanner.log.debug("Predicate: "+predicate);
+		CamelFLO.log.debug("Predicate: "+predicate);
 		return predicate==null?false:predicate.matches(exchange);
 	}
 }
@@ -267,7 +275,7 @@ class RDFBasedExpression implements Expression {
 
 	@Override
 	public <T> T evaluate(Exchange exchange, Class<T> tClass) {
-		RDFRoutePlanner.log.debug("Expression: "+expression+" -> "+expression.getClass()+" -> "+tClass);
+		CamelFLO.log.debug("Expression: "+expression+" -> "+expression.getClass()+" -> "+tClass);
 		if (expression==null) return null;
 		return expression.evaluate(exchange,tClass);
 	}

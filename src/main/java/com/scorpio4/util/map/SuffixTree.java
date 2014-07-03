@@ -1,7 +1,7 @@
 package com.scorpio4.util.map;
 
 /**
- * Fact:Core (c) 2013
+ * Scorpio4 (c) 2013
  * Module: com.scorpio4.util.map
  * User  : lee
  * Date  : 12/03/2014

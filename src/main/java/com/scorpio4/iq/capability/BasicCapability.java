@@ -5,7 +5,7 @@ import com.scorpio4.util.Bindable;
 import java.util.Map;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.iq.empower
  * User  : lee
  * Date  : 19/06/2014

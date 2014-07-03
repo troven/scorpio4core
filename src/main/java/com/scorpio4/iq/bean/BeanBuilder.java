@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * FactCore (c) 2013
+ * scorpio4 (c) 2013
  *
  * All software contained herein is, and remains
  * the property of Lee Curtis and licensed suppliers.
@@ -163,7 +163,7 @@ public class BeanBuilder implements FactStream {
 			bi = Introspector.getBeanInfo(object.getClass());
 			log.debug("Bean Info: "+ bi.getBeanDescriptor().getDisplayName());
 		} catch (IntrospectionException e1) {
-			throw new IQException("urn:factcore:oops:config#"+object.toString(),e1);
+			throw new IQException("urn:scorpio4:oops:config#"+object.toString(),e1);
 		}
 		PropertyDescriptor pds[] = bi.getPropertyDescriptors();
 		for (int i = 0; i < pds.length; i++) {
@@ -208,9 +208,9 @@ public class BeanBuilder implements FactStream {
 					log.debug("Set: "+obj.toString()+" -> "+name+" := "+value+" / "+convertedValue+"  ["+writeMethod.getName()+"]");
 					writeMethod.invoke(obj, convertedValue);
 				} catch (IllegalAccessException e1) {
-					throw new IQException("urn:factcore:iq:builder:oops:property-access#"+name,e1);
+					throw new IQException("urn:scorpio4:iq:builder:oops:property-access#"+name,e1);
 				} catch (InvocationTargetException e1) {
-					throw new IQException("urn:factcore:iq:builder:oops:property-invocation#"+name,e1);
+					throw new IQException("urn:scorpio4:iq:builder:oops:property-invocation#"+name,e1);
 				}
 			} else {
 				log.trace("?method: "+name+" -> "+writeMethod);
@@ -232,7 +232,7 @@ public class BeanBuilder implements FactStream {
 		try {
 			bi = Introspector.getBeanInfo(delegate.getClass());
 		} catch (IntrospectionException e1) {
-			throw new IQException("urn:factcore:oops:config#",e1);
+			throw new IQException("urn:scorpio4:oops:config#",e1);
 		}
 		MethodDescriptor mds[] = bi.getMethodDescriptors();
 		int l = 0;
@@ -252,9 +252,9 @@ public class BeanBuilder implements FactStream {
 						method.invoke(delegate, params);
 						log.debug("Linked: " + p + " -> " + method.getName() + Arrays.toString(params)+" -> "+attributes);
 					} catch (IllegalAccessException e) {
-						throw new IQException("urn:factcore:iq:builder:oops:illegal-access#"+method.getName(),e);
+						throw new IQException("urn:scorpio4:iq:builder:oops:illegal-access#"+method.getName(),e);
 					} catch (InvocationTargetException e) {
-						throw new IQException("urn:factcore:iq:builder:oops:invocation-failed#"+method.getName(),e);
+						throw new IQException("urn:scorpio4:iq:builder:oops:invocation-failed#"+method.getName(),e);
 					}
 				}
 			}
@@ -276,7 +276,7 @@ public class BeanBuilder implements FactStream {
 		try {
 			bi = Introspector.getBeanInfo(delegate.getClass());
 		} catch (IntrospectionException e1) {
-			throw new IQException("urn:factcore:oops:config#",e1);
+			throw new IQException("urn:scorpio4:oops:config#",e1);
 		}
 		MethodDescriptor mds[] = bi.getMethodDescriptors();
 
@@ -287,9 +287,9 @@ public class BeanBuilder implements FactStream {
 				delegate(method,p,c,attributes);
 
 			} catch (IllegalAccessException e) {
-				throw new IQException("urn:factcore:iq:builder:oops:illegal-access#"+method.getName(),e);
+				throw new IQException("urn:scorpio4:iq:builder:oops:illegal-access#"+method.getName(),e);
 			} catch (InvocationTargetException e) {
-				throw new IQException("urn:factcore:iq:builder:oops:invocation-failed#"+method.getName(),e);
+				throw new IQException("urn:scorpio4:iq:builder:oops:invocation-failed#"+method.getName(),e);
 			}
 		}
 		return c;
@@ -309,7 +309,7 @@ public class BeanBuilder implements FactStream {
 		// fail fast, check number of parameters match
 		if (params.length!=method.getParameterTypes().length) {
 			log.error("Mismatched Parameters: " + method.getName() + " " + params.length + " & " + genericParameterTypes.length);
-			throw new IQException("urn:factcore:iq:builder:oops:incorrect-parameter-count#"+method.getName());
+			throw new IQException("urn:scorpio4:iq:builder:oops:incorrect-parameter-count#"+method.getName());
 		}
 		int l = 0;
 		if (isInstanceOf(p, genericParameterTypes[l]) ) {
@@ -378,13 +378,13 @@ public class BeanBuilder implements FactStream {
 			Class cc = getClassLoader().loadClass(className);
 			return  cc.newInstance();
 		} catch (ClassNotFoundException e) {
-			throw new IQException("urn:factcore:iq:builder:oops:missing-class#"+className);
+			throw new IQException("urn:scorpio4:iq:builder:oops:missing-class#"+className);
 		} catch (InstantiationException e) {
-			throw new IQException("urn:factcore:iq:builder:oops:instantiate#"+className,e);
+			throw new IQException("urn:scorpio4:iq:builder:oops:instantiate#"+className,e);
 		} catch (IllegalAccessException e) {
-			throw new IQException("urn:factcore:iq:builder:oops:class-not-public#"+className,e);
+			throw new IQException("urn:scorpio4:iq:builder:oops:class-not-public#"+className,e);
 		} catch(Exception e) {
-			throw new IQException("urn:factcore:iq:builder:oops:unknown#"+className,e);
+			throw new IQException("urn:scorpio4:iq:builder:oops:unknown#"+className,e);
 		}
 	}
 
@@ -394,7 +394,7 @@ public class BeanBuilder implements FactStream {
 			log.debug("Resolved class: " + classURI+" -> "+className);
 			return className;
 		}
-		throw new IQException("urn:factcore:iq:builder:oops:unresolved-class#"+classURI);
+		throw new IQException("urn:scorpio4:iq:builder:oops:unresolved-class#"+classURI);
 	}
 
 	// Implement FactStream

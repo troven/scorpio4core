@@ -1,6 +1,6 @@
 package com.scorpio4.util.keysafe;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * FactCore (c) 2013
+ * scorpio4 (c) 2013
  * Module: com.scorpio4.security.keysafe
  * User  : lee
  * Date  : 3/11/2013

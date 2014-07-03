@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.vendor.sesame.util
  * User  : lee
  * Date  : 27/05/2014
@@ -63,15 +63,17 @@ public class RDFList {
         return list;
     }
 
-    protected void addToList(Collection<Value> list, Resource head) throws RepositoryException {
+	protected void addToList(Collection<Value> list, Resource head) throws RepositoryException {
         if (seen.containsKey(head.stringValue())) return;
         seen.put(head.stringValue(), true);
 
         RepositoryResult<Statement> statements = getStatements(head,rdfFirst);
         while (statements.hasNext()) {
             Statement statement = statements.next();
-            list.add(statement.getObject());
-	        log.trace("\t\t\t+"+statement);
+	        if (!list.contains(statement.getObject())) {
+	            list.add(statement.getObject());
+	            log.trace("\t\t\t+"+statement);
+	        }
         }
         RepositoryResult<Statement> nexts = getStatements(head,rdfRest);
         while (nexts.hasNext()) {

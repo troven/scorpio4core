@@ -1,6 +1,6 @@
 package com.scorpio4.fact.stream;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -21,7 +21,7 @@ import com.scorpio4.oops.FactException;
 import com.scorpio4.util.Identifiable;
 
 /**
- * Fact:Core (c) 2012
+ * Scorpio4 (c) 2012
  * User: lee
  * Date: 4/09/13
  * Time: 4:15 PM

@@ -1,6 +1,6 @@
 package com.scorpio4.util.io;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -21,7 +21,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Fact:Core (c) Lee Curtis 2012
+ * Scorpio4 (c) Lee Curtis 2012
  * User: lee
  * Date: 15/03/13
  * Time: 12:13 PM

@@ -1,6 +1,6 @@
 package com.scorpio4.template;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -17,7 +17,7 @@ package com.scorpio4.template;
  *
  */
 /**
- * FactCore (c) 2013
+ * scorpio4 (c) 2013
  * Module: com.scorpio4.output.template
  * User  : lee
  * Date  : 28/11/2013

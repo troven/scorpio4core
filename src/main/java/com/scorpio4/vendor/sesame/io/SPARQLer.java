@@ -1,6 +1,6 @@
 package com.scorpio4.vendor.sesame.io;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *  25/04/2014 re-licensed BSD License [Lee Curtis].
@@ -23,7 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  *
  *
  */

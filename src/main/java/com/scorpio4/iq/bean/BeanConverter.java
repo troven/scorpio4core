@@ -1,6 +1,6 @@
 package com.scorpio4.iq.bean;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * FactCore (c) 2013
+ * scorpio4 (c) 2013
  * Module: com.scorpio4.iq.bean
  * User  : lee
  * Date  : 31/12/2013
@@ -87,7 +87,7 @@ public class BeanConverter implements ConvertsType {
             // safely convert a URI
             try { return new URI(value);
             } catch (URISyntaxException e) {
-                try { return new URI("urn:factcore:iq:bean:oops:invalid-uri#"+value); } catch (URISyntaxException e1) { /* NO OP */ }
+                try { return new URI("urn:scorpio4:iq:bean:oops:invalid-uri#"+value); } catch (URISyntaxException e1) { /* NO OP */ }
             }
         } else if (Date.class.isInstance(type)) {
             Calendar calendar = DatatypeConverter.parseDateTime(value);

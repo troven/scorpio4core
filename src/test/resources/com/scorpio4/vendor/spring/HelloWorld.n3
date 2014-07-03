@@ -8,16 +8,16 @@
 @prefix acl: 		<http://www.w3.org/ns/auth/acl#> .
 
 @prefix test: 		<direct:test:>.
-@prefix flo: 		<http://factcore.com/core/flo/>.
-@prefix bean: 		<http://factcore.com/core/bean/>.
-@prefix : 		    <urn:Examples:toolchain:api:>.
+@prefix flo: 		<http://scorpio4.com/core/flo/>.
+@prefix bean: 		<http://scorpio4.com/core/bean/>.
+@prefix : 		    <urn:scorpio4:demo:toolchain:api:>.
 
 
-<urn:com.factcore.vendor.spring.HelloWorld>		a	<bean:com.factcore.vendor.spring.HelloWorld>.
-<urn:com.factcore.vendor.spring.HelloWorld>	<urn:com.factcore.vendor.spring.HelloWorld#setGreeting>	"greetings".
+<urn:com.scorpio4.vendor.spring.HelloWorld>		a	<bean:com.scorpio4.vendor.spring.HelloWorld>.
+<urn:com.scorpio4.vendor.spring.HelloWorld>	<urn:com.scorpio4.vendor.spring.HelloWorld#setGreeting>	"greetings".
 
-<bean:com.factcore.vendor.spring.HelloWorld>	a 	bean:Bean.
+<bean:com.scorpio4.vendor.spring.HelloWorld>	a 	bean:Bean.
 
-<bean:com.factcore.vendor.spring.GreetingsEarthling> a bean:Bean.
+<bean:com.scorpio4.vendor.spring.GreetingsEarthling> a bean:Bean.
 
-<bean:com.factcore.vendor.spring.HelloWorld> bean:new	(<bean:com.factcore.vendor.spring.GreetingsEarthling>).
+<bean:com.scorpio4.vendor.spring.HelloWorld> bean:new	(<bean:com.scorpio4.vendor.spring.GreetingsEarthling>).

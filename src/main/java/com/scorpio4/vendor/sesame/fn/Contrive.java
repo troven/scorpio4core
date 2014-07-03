@@ -1,6 +1,6 @@
 package com.scorpio4.vendor.sesame.fn;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  *
  * To use the custom function, copy the JAR file into the classpath for Sesame.
  * Test the function using:
-	 PREFIX fn: <http://factcore.com/openrdf/function/>
+	 PREFIX fn: <http://scorpio4.com/openrdf/function/>
 
 	 SELECT ?this ?that WHERE {
 	 ?this a rdfs:Class.

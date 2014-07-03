@@ -12,7 +12,7 @@ import org.openrdf.repository.RepositoryResult;
 /**
  * ORIGINAL: (c) Lee Curtis, 2009-2014.
  *
- * FactCore (c) 2011-2013
+ * scorpio4 (c) 2011-2013
  * Module: com.scorpio4.util
  * User  : lee
  * Date  : 7/05/2014

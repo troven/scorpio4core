@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * FactCore (c) 2013
+ * scorpio4 (c) 2013
  * Module: com.scorpio4.scripts
  * User  : lee
  * Date  : 1/05/2014

@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * FactCore (c) 2013-2014
+ * scorpio4 (c) 2013-2014
  * Module: com.scorpio4
  * User  : lee
  * Date  : 1/05/2014

@@ -3,7 +3,7 @@ package com.scorpio4.assets;
 import com.scorpio4.vocab.COMMON;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.assets
  * User  : lee
  * Date  : 17/06/2014

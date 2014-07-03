@@ -4,7 +4,7 @@ import com.scorpio4.util.Identifiable;
 import org.openrdf.repository.RepositoryConnection;
 
 /**
- * Fact:Core (c) 2014
+ * Scorpio4 (c) 2014
  * Module: com.scorpio4.fact
  * User  : lee
  * Date  : 17/06/2014

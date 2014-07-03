@@ -31,24 +31,24 @@ public class CoreComponent extends ClassComponent {
 	}
 
 	protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-
+		Object executable = null;
 		if (remaining.startsWith("script:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Script(this, remaining.substring(7)), getCamelContext()));
+			executable = new Script(this, remaining.substring(7));
 		} else if (remaining.startsWith("infer:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Infer(this, remaining.substring(6)), getCamelContext()));
+			executable = new Infer(this, remaining.substring(6));
 		} else if (remaining.startsWith("publish:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Publish(this, remaining.substring(8)), getCamelContext()));
+			executable = new Publish(this, remaining.substring(8));
 		} else if (remaining.startsWith("sparql:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new SPARQL(this, remaining.substring(7)), getCamelContext()));
+			executable = new SPARQL(this, remaining.substring(7));
 		} else if (remaining.startsWith("asset:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new AssetHandler(this, remaining.substring(6)), getCamelContext()));
+			executable = new AssetHandler(this, remaining.substring(6));
 		} else if (remaining.startsWith("deploy:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Deploy(this, remaining.substring(7)), getCamelContext()));
+			executable = new Deploy(this, remaining.substring(7));
 		} else if (remaining.startsWith("execute:")) {
-			return new BeanEndpoint(uri, this, new BeanProcessor(new Execute(this, remaining.substring(8)), getCamelContext()));
+			executable = new Execute(this, remaining.substring(8));
 		}
 
-		return null;
+		return executable==null?null:new BeanEndpoint(uri, this, new BeanProcessor(executable, getCamelContext()));
 	}
 
 	public FactSpace getFactSpace() {

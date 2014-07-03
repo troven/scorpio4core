@@ -1,6 +1,6 @@
 package com.scorpio4.util;
 /*
- *   Fact:Core - CONFIDENTIAL
+ *   Scorpio4 - CONFIDENTIAL
  *   Unpublished Copyright (c) 2009-2014 Lee Curtis, All Rights Reserved.
  *
  *   NOTICE:  All information contained herein is, and remains the property of Lee Curtis. The intellectual and technical concepts contained
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
- * Fact:Core (c) 2010-2013
+ * Scorpio4 (c) 2010-2013
  * User: lee
  * Date: 19/02/13
  * Time: 8:02 PM
@@ -59,18 +59,18 @@ public class ClassCreator {
 		try {
 			Class clasz = Class.forName(classname);
 			Object object = clasz.newInstance();
-			if (object==null) throw new IQException("urn:factcore:util:creator:oops:null-instance#"+classname);
+			if (object==null) throw new IQException("urn:scorpio4:util:creator:oops:null-instance#"+classname);
 			if(type!=null && !type.isInstance(object)) {
                 log.error("Class:Creator: "+object+" of type: "+type+" -> "+object.getClass().getInterfaces());
-                throw new IQException("urn:factcore:util:creator:oops:not-instance#"+type);
+                throw new IQException("urn:scorpio4:util:creator:oops:not-instance#"+type);
             }
 			return object;
 		} catch (InstantiationException e) {
-			throw new IQException("urn:factcore:util:creator:oops:instantiate-failed#"+e.getMessage(),e);
+			throw new IQException("urn:scorpio4:util:creator:oops:instantiate-failed#"+e.getMessage(),e);
 		} catch (IllegalAccessException e) {
-			throw new IQException("urn:factcore:util:creator:oops:illegal-access#"+e.getMessage(),e);
+			throw new IQException("urn:scorpio4:util:creator:oops:illegal-access#"+e.getMessage(),e);
 		} catch (ClassNotFoundException e) {
-			throw new IQException("urn:factcore:util:creator:oops:unknown-class#"+e.getMessage(),e);
+			throw new IQException("urn:scorpio4:util:creator:oops:unknown-class#"+e.getMessage(),e);
 		}
 	}
 
