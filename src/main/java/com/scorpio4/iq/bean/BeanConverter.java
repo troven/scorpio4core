@@ -119,6 +119,7 @@ public class BeanConverter implements ConvertsType {
             case COMMON.XSD+"date": return Date.class;
             case COMMON.XSD+"dateTime": return Date.class;
             case COMMON.XSD+"anyURI": return URI.class;
+	        case COMMON.XSD+"null": return null;
             // simple
             case "string": return String.class;
             case "integer": return Integer.class;
@@ -131,6 +132,7 @@ public class BeanConverter implements ConvertsType {
             case "date": return Date.class;
             case "dateTime": return Date.class;
             case "anyURI": return URI.class;
+	        case "null": return null;
         }
         return Object.class;
     }

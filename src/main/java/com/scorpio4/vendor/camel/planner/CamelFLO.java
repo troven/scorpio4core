@@ -21,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Scorpio (c) 2014
@@ -37,11 +39,6 @@ public class CamelFLO extends FLOSupport {
 	AssetRegister assetRegister = null;
 	String baseURI = COMMON.CAMEL_FLO;
 	URI TO = null;
-
-	public CamelFLO(FactSpace factSpace) throws Exception {
-		super();
-		init(factSpace);
-	}
 
 	public CamelFLO(CamelContext camelContext, FactSpace factSpace) throws Exception {
 		super(camelContext);
@@ -77,11 +74,15 @@ public class CamelFLO extends FLOSupport {
 		String FROM = getBaseURI()+"from";
 		log.debug("Plan Route: "+routeURI+" -> "+FROM);
 		RepositoryResult<Statement> froms = connection.getStatements(vf.createURI(routeURI), vf.createURI(FROM), null, false);
-
+		Map seen = new HashMap();
 		while(froms.hasNext()){
 			Statement next = froms.next();
 			final Value _routeID = next.getSubject();
 			final Value _from = next.getObject();
+			if (seen.containsKey(_from.stringValue())) {
+				break;
+			}
+			seen.put(_from.stringValue(), true);
 			RouteBuilder routing = new org.apache.camel.builder.RouteBuilder() {
 				@Override
 				public void configure() throws Exception {

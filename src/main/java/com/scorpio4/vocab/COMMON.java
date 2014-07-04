@@ -67,8 +67,8 @@ public interface COMMON {
 
     public static final String SELF = "http://scorpio4.com/";
 
-    public static final String CORE = SELF+"core/";
+    public static final String CORE = SELF+"vocab/v1/";
     public static final String FN = SELF+"vendor/sesame/fn/";
 
-	public static final String CAMEL_FLO = "http://scorpio4.com/core/flo/";
+	public static final String CAMEL_FLO = CORE+"flo/";
 }

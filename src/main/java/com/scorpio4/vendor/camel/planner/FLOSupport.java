@@ -1,6 +1,7 @@
 package com.scorpio4.vendor.camel.planner;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.CamelExecutionException;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -67,7 +68,7 @@ public class FLOSupport {
 		return trigger(from, body, new HashMap());
 	}
 
-	public Object trigger(String from, Object body, Map<String,Object> header) {
+	public Object trigger(String from, Object body, Map header) throws CamelExecutionException {
 		ProducerTemplate doit = context.createProducerTemplate();
 		Object result = doit.requestBodyAndHeaders(from, body, header);
 		return result;

@@ -48,6 +48,8 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	BeanConverter converter = new BeanConverter();
 	protected Map reserved = new HashMap();
 	RDFList rdfList;
+	RDFScalars rdfScalars;
+
 
 	public RDFBeanDefinitionReader(RepositoryConnection connection) {
 		this(connection, new GenericApplicationContext());
@@ -59,6 +61,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		this.connection=connection;
 		vf = connection.getValueFactory();
 		rdfList = new RDFList(connection);
+		rdfScalars = new RDFScalars(connection);
 		setBeanClassLoader(Thread.currentThread().getContextClassLoader());
 		defaultReservedWords();
     }
@@ -70,8 +73,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	public void defaultReservedWords() {
 		reserved.put("new", Collection.class);
 		reserved.put("dependsOn", Collection.class);
-		reserved.put("new", Collection.class);
-		reserved.put("new", Collection.class);
+		reserved.put("constructor", Collection.class);
 	}
 
 
@@ -172,8 +174,6 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		 * Scalar Definitions
 		 */
 
-		RDFScalars rdfScalars= new RDFScalars(connection);
-
 		Literal lazyInit = rdfScalars.getLiteral(beanURI, createURI( "lazyInit"), XSD.BOOLEAN);
 		if (lazyInit!=null) defineBean.setLazyInit(lazyInit.booleanValue());
 
@@ -214,19 +214,9 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		 */
 
 		// constructor arguments
-		int i=0;
-		URI newPredicate = createURI( "new");
 		ConstructorArgumentValues argValues = new ConstructorArgumentValues();
-		Collection<Value> initArgs = rdfList.getList(beanURI, newPredicate);
-		for(Value initValue: initArgs) {
-			i = addToArguments(argValues, i, initValue);
-		}
-		if (i==0) {
-			// handle single scalar reference
-			Value arg = rdfScalars.getValue(beanURI, newPredicate);
-			if (arg!=null) addToArguments(argValues, 0, arg);
-		}
-//		log.debug("Define: "+beanClass+" -> "+argValues);
+		int i = createConstructor(0, beanURI, argValues, createURI( "new"));
+		if (i==0) i = createConstructor(0, beanURI, argValues, createURI( "constructor"));
 		defineBean.setConstructorArgumentValues(argValues);
 
 		// dependsOn
@@ -245,6 +235,19 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		log.debug("Defined: "+beanClass+" @ "+defineBean);
 		log.debug("\tproperties:"+Arrays.toString(propertyValues.getPropertyValues()));
 		return defineBean;
+	}
+
+	private int createConstructor(int i, org.openrdf.model.Resource beanURI, ConstructorArgumentValues argValues, URI newPredicate) throws RepositoryException {
+		Collection<Value> initArgs = this.rdfList.getList(beanURI, newPredicate);
+		for(Value initValue: initArgs) {
+			i = addToArguments(argValues, i, initValue);
+		}
+		if (i==0) {
+			// handle single scalar reference
+			Value arg = rdfScalars.getValue(beanURI, newPredicate);
+			if (arg!=null) addToArguments(argValues, 0, arg);
+		}
+		return i;
 	}
 
 	protected MutablePropertyValues defineBeanProperties(org.openrdf.model.Resource beanURI, AbstractBeanDefinition defineBean) throws RepositoryException {

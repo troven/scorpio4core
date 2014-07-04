@@ -8,8 +8,8 @@
 @prefix acl: 		<http://www.w3.org/ns/auth/acl#> .
 
 @prefix test: 		<direct:test:>.
-@prefix flo: 		<http://scorpio4.com/core/flo/>.
-@prefix bean: 		<http://scorpio4.com/core/bean/>.
+@prefix flo: 		<http://scorpio4.com/vocab/v1/flo/>.
+@prefix bean: 		<http://scorpio4.com/vocab/v1/bean/>.
 @prefix : 		    <urn:scorpio4:demo:toolchain:api:>.
 
 
