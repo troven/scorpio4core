@@ -117,6 +117,7 @@ public class BeanConverter implements ConvertsType {
     }
 
     public static Class convertXSDToClass(String xsdType) {
+	    if (xsdType==null) return String.class;
         switch(xsdType) {
             // xsd
             case COMMON.XSD+"string": return String.class;

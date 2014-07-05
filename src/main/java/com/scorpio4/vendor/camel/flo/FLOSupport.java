@@ -1,4 +1,4 @@
-package com.scorpio4.vendor.camel.planner;
+package com.scorpio4.vendor.camel.flo;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.CamelExecutionException;

@@ -14,11 +14,15 @@ import org.semarglproject.vocab.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
-import org.springframework.beans.factory.support.*;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
@@ -207,8 +211,6 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		Literal description = rdfScalars.getLiteral(beanURI, createURI( "description"), XSD.STRING);
 		if (description!=null) defineBean.setDescription(description.stringValue());
 
-		defineBean.setDependencyCheck(AbstractBeanDefinition.DEPENDENCY_CHECK_ALL);
-
 		/*
 		 * Vector Definitions
 		 */
@@ -298,12 +300,14 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 			log.debug("\tNew Ref: "+uri);
 			propertyValues.add(local, new RuntimeBeanReference(uri));
 		} else if (value instanceof Literal) {
-			Literal literal = (Literal)value;
-			Object o = converter.convertToType(literal.stringValue(), literal.getDatatype().toString());
-			log.debug("\tNew: "+literal+" -> "+o);
-			propertyValues.add(local, o);
+			Literal literal = (Literal) value;
+			URI datatype = literal.getDatatype();
+			Object o = converter.convertToType(literal.stringValue(), datatype == null ? null : datatype.toString());
+			log.debug("\t" + local + " == " + literal + " -> " + o + " = " + o.getClass() + " @ " + datatype);
+			PropertyValue propertyValue = new PropertyValue(local, o);
+			propertyValues.addPropertyValue(propertyValue);
 		} else {
-			log.debug("\tinit? "+value);
+			log.debug("\tinit? " + value);
 		}
 	}
 
@@ -312,16 +316,18 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		GenericBeanDefinition beanDef = new GenericBeanDefinition();
 		beanDef.setBeanClassName(beanClass);
 		beanDef.setNonPublicAccessAllowed(true);
+		beanDef.setPrimary(true);
 		beanDef.setPropertyValues(new MutablePropertyValues());
-		beanDef.setScope(beanDef.SCOPE_PROTOTYPE);
+		beanDef.setScope(GenericBeanDefinition.SCOPE_PROTOTYPE);
 		beanDef.setLazyInit(true);
 		beanDef.setSynthetic(false);
-		beanDef.setAutowireMode(beanDef.AUTOWIRE_CONSTRUCTOR);
+		beanDef.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_NAME);
+		beanDef.setAutowireCandidate(false);
 		beanDef.setAbstract(false);
 		beanDef.setLenientConstructorResolution(true);
-		beanDef.setAutowireCandidate(true);
-		beanDef.setDependencyCheck(RootBeanDefinition.DEPENDENCY_CHECK_NONE);
-		log.debug("Resolving: "+beanClass);
+		beanDef.setDependencyCheck(GenericBeanDefinition.DEPENDENCY_CHECK_NONE);
+		assert beanDef.getDependencyCheck()==0;
+		log.debug("Resolving: "+beanClass+" -> "+beanDef);
 		beanDef.resolveBeanClass(getBeanClassLoader());
 		return beanDef;
 	}
