@@ -1,5 +1,6 @@
 package com.scorpio4.assets;
 
+import com.scorpio4.util.Identifiable;
 import com.scorpio4.vocab.COMMON;
 
 /**
@@ -9,7 +10,7 @@ import com.scorpio4.vocab.COMMON;
  * Date  : 17/06/2014
  * Time  : 8:50 PM
  */
-public class Asset {
+public class Asset implements Identifiable {
 	String identity = null;
     Object content = null;
     String mimeType = null;
@@ -51,6 +52,11 @@ public class Asset {
 
 	public void setMimeType(String mimeType) {
 		this.mimeType=mimeType;
+	}
+
+	@Override
+	public String getIdentity() {
+		return identity;
 	}
 }
 

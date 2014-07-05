@@ -1,11 +1,11 @@
 package com.scorpio4.vendor.camel.component;
 
-import com.scorpio4.vendor.camel.component.self.Lifecycle;
+import com.scorpio4.ExecutionEnvironment;
+import com.scorpio4.vendor.camel.component.self.*;
 import org.apache.camel.Endpoint;
 import org.apache.camel.component.bean.BeanEndpoint;
 import org.apache.camel.component.bean.BeanProcessor;
 import org.apache.camel.component.bean.ClassComponent;
-import org.apache.camel.util.IntrospectionSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,19 +20,28 @@ import java.util.Map;
  */
 public class SelfComponent extends ClassComponent {
 	protected final Logger log = LoggerFactory.getLogger(SelfComponent.class);
-	protected Object bean;
+	ExecutionEnvironment engine;
 
-	public SelfComponent(Object bean) {
-		this.bean = bean;
-	}
-
-	public Object getBean() {
-		return bean;
+	public SelfComponent(ExecutionEnvironment engine) {
+		this.engine = engine;
 	}
 
 	protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-		Map<String, Object> params = IntrospectionSupport.extractProperties(parameters, "scorpio4.");
-		return new BeanEndpoint(uri,this, new BeanProcessor(new Lifecycle(this, uri, remaining, params), getCamelContext() ));
+		Object executable = null;
+		if (remaining.startsWith("script:")) {
+			executable = new Script(engine, remaining.substring(7));
+		} else if (remaining.startsWith("infer:")) {
+			executable = new Infer(engine, remaining.substring(6));
+		} else if (remaining.startsWith("template:")) {
+			executable = new AssetTemplate(engine, remaining.substring(8));
+		} else if (remaining.startsWith("sparql:")) {
+			executable = new SPARQL(engine, remaining.substring(7));
+		} else if (remaining.startsWith("asset:")) {
+			executable = new CoreAsset(engine, remaining.substring(6));
+		} else if (remaining.startsWith("deploy:")) {
+			executable = new Deploy(engine, remaining.substring(7));
+		}
+		return executable==null?null:new BeanEndpoint(uri, this, new BeanProcessor(executable, getCamelContext()));
 	}
 
 }

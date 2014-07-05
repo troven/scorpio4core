@@ -19,7 +19,7 @@ import java.util.Map;
  * Time  : 2:43 PM
  */
 public class Any23Component extends ClassComponent {
-	static protected final Logger log = LoggerFactory.getLogger(CoreComponent.class);
+	static protected final Logger log = LoggerFactory.getLogger(Any23Component.class);
 
 	public Any23Component() {
 	}

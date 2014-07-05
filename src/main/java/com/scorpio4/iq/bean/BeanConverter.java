@@ -22,9 +22,10 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -66,6 +67,14 @@ public class BeanConverter implements ConvertsType {
      * **/
     @Override
     public Object convertToType(String value, Class type) throws ClassCastException {
+	    try {
+		    return _convertToType(value, type);
+	    } catch (Exception e) {
+		    throw new ClassCastException(e.getMessage());
+	    }
+    }
+
+    private Object _convertToType(String value, Class type) throws Exception {
         if (value==null) return null;
         if (type == null || String.class == type ) {
             return NULL.equals(value) ? null : value;
@@ -84,14 +93,16 @@ public class BeanConverter implements ConvertsType {
 		} else if (Byte.class == type) {
 			return DatatypeConverter.parseByte(value);
         } else if (URI.class.isInstance(type)) {
-            // safely convert a URI
-            try { return new URI(value);
-            } catch (URISyntaxException e) {
-                try { return new URI("urn:scorpio4:iq:bean:oops:invalid-uri#"+value); } catch (URISyntaxException e1) { /* NO OP */ }
-            }
+            return new URI(value);
         } else if (Date.class.isInstance(type)) {
             Calendar calendar = DatatypeConverter.parseDateTime(value);
             return calendar.getTime();
+        } else if (URLConnection.class.isInstance(type)) {
+	        URL url = new URL(value);
+	        return url.openConnection();
+        } else if (InputStream.class.isInstance(type)) {
+	        URL url = new URL(value);
+	        return url.openStream();
         } else if (JSONObject.class.isInstance(type)) {
             return JSONObject.fromObject(value);
         } else if (JSONArray.class.isInstance(type)) {
@@ -134,6 +145,9 @@ public class BeanConverter implements ConvertsType {
             case "anyURI": return URI.class;
 	        case "null": return null;
         }
+	    if (xsdType.startsWith(COMMON.MIME_TYPE)) {
+		    return InputStream.class;
+	    }
         return Object.class;
     }
 
@@ -143,6 +157,7 @@ public class BeanConverter implements ConvertsType {
     }
 
     public static String convertClassToXSD(Class type) {
+	    if (type==null) return COMMON.XSD+"null";
         if (String.class.isInstance(type)) return COMMON.XSD+"string";
         if (Integer.class.isInstance(type)) return COMMON.XSD+"integer";
         if (Float.class.isInstance(type)) return COMMON.XSD+"float";
