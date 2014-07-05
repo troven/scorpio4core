@@ -66,15 +66,14 @@ public class Contrive extends CustomFunction {
 
 		// get the prefix (1st argument)
 		Value prefixURI = args[0];
+		return valueFactory.createURI(_evaluate(prefixURI.stringValue(), args));
+	}
 
+	public String _evaluate(String prefixURI, Value... args) {
 		// get the contrived values (multi-part keys)
 		StringBuilder contrived = new StringBuilder();
 		for(int i=1;i<args.length;i++) contrived.append(args[i].stringValue());
-
 		// append the SHA hash of the contrived values to the prefix
-		String contrivedURI = prefixURI.stringValue() + DigestUtils.shaHex(contrived.toString());
-
-		// output contrived URI
-		return valueFactory.createURI(contrivedURI);
+		return prefixURI + DigestUtils.shaHex(contrived.toString());
 	}
 }
