@@ -136,6 +136,7 @@ public class SesameFLO extends FLOSupport {
 		if (to.equals(COMMON.CAMEL_FLO+"stop")) return from.stop();
 		if (to.equals(COMMON.CAMEL_FLO+"end")) return from.end();
 		if (to.equals(COMMON.CAMEL_FLO+"endChoice")) return from.endChoice();
+
 		log.debug(action+" action: -> "+to);
 
 		if (action.equals("to") || action.equals("do")) {
@@ -143,9 +144,10 @@ public class SesameFLO extends FLOSupport {
 		} else if (action.equals("bean") ) {
 			log.info("to-bean: "+to);
 			from = from.beanRef(to);
-		} else if (action.equals("setBody")) {
+		} else if (action.equals("setBody") ||action.equals("body")) {
 			from = from.setBody(toExpression(connection, _to));
-		} else if (action.equals("setFaultBody")) {
+		} else if (action.equals("setFaultBody") || action.equals("fault") || action.equals("faultBody")) {
+			// various FLO synonyms
 			from = from.setFaultBody(toExpression(connection, _to));
 		} else if (action.equals("validate")) {
 			from = from.validate(toExpression(connection, _to));
@@ -174,6 +176,7 @@ public class SesameFLO extends FLOSupport {
 		} else if (action.equals("resequence")) {
 			from = from.resequence(toExpression(connection, _to));
 		} else if (action.equals("convertBodyTo") && action.equals("as")) {
+			// "as" is a FLO synonym for convertBodyTo
 			from = doConvertBodyTo(from, to);
 		} else if (action.equals("recipientList")) {
 			from = from.recipientList(toExpression(connection, _to));
@@ -192,6 +195,7 @@ public class SesameFLO extends FLOSupport {
 		} else if (action.equals("when") && from instanceof ChoiceDefinition) {
 			from = doChoice(connection, (ChoiceDefinition)from, _to);
 		} else if (action.equals("if") && from instanceof ChoiceDefinition) {
+			// FLO synonym for when
 			from = doChoice(connection, (ChoiceDefinition)from, _to);
 		} else if (action.equals("otherwise") && from instanceof ChoiceDefinition) {
 			ChoiceDefinition choice = (ChoiceDefinition)from;
