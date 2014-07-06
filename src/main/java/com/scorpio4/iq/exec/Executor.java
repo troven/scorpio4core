@@ -1,5 +1,6 @@
 package com.scorpio4.iq.exec;
 
+import com.scorpio4.ExecutionEnvironment;
 import com.scorpio4.assets.Asset;
 import com.scorpio4.assets.AssetRegister;
 import com.scorpio4.assets.AssetRegisters;
@@ -33,7 +34,7 @@ import java.util.concurrent.Future;
  * Date  : 18/06/2014
  * Time  : 9:57 AM
  */
-public class Executor {
+public class Executor implements Executable {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     AssetRegister assetRegister = null;
@@ -55,6 +56,12 @@ public class Executor {
         this.assetRegister = assetRegister;
         this.rdfList = new RDFList(factSpace.getConnection(),factSpace.getIdentity());
     }
+
+	public Executor(ExecutionEnvironment engine) {
+		this.factSpace = engine.getFactSpace();
+		this.assetRegister = engine.getAssetRegister();
+		this.rdfList = new RDFList(factSpace.getConnection(),factSpace.getIdentity());
+	}
 
     public void addExecutable(String name, Executable executable) {
         beanFactory.put(name,executable);
@@ -153,4 +160,8 @@ public class Executor {
         return beans;
     }
 
+	@Override
+	public Future execute(Asset asset, Map bindings) throws IQException, AssetNotSupported {
+		throw new IQException("Executor Not Implemented: "+asset);
+	}
 }

@@ -43,6 +43,7 @@ public interface COMMON {
     // Common Vocabularies;
 
 	public static final String XSD = "http://www.w3.org/2001/XMLSchema#";
+	public static final String XSD_NULL = "http://www.w3.org/2001/XMLSchema#null";
     public static final String DC = "http://purl.org/dc/elements/1.1/";
     public static final String DCTERMS = "http://purl.org/dc/terms/";
     public static final String SKOS = "http://www.w3.org/2004/02/skos/core#";

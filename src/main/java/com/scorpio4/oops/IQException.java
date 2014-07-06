@@ -29,6 +29,10 @@ public class IQException extends Exception {
 		super(msg);
 	}
 
+	public IQException(Throwable thrown) {
+		super("Re-Thrown: "+thrown.getMessage(), thrown);
+	}
+
 	public IQException(String msg, Throwable thrown) {
 		super(msg, thrown);
 	}

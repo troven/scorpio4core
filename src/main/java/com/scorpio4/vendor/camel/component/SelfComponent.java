@@ -1,6 +1,7 @@
 package com.scorpio4.vendor.camel.component;
 
 import com.scorpio4.ExecutionEnvironment;
+import com.scorpio4.iq.exec.Executor;
 import com.scorpio4.vendor.camel.component.self.*;
 import org.apache.camel.Endpoint;
 import org.apache.camel.component.bean.BeanEndpoint;
@@ -37,9 +38,13 @@ public class SelfComponent extends ClassComponent {
 		} else if (remaining.startsWith("sparql:")) {
 			executable = new SPARQL(engine, remaining.substring(7));
 		} else if (remaining.startsWith("asset:")) {
-			executable = new CoreAsset(engine, remaining.substring(6));
+			executable = new AssetBase(engine, remaining.substring(6));
 		} else if (remaining.startsWith("deploy:")) {
 			executable = new Deploy(engine, remaining.substring(7));
+		} else if (remaining.startsWith("exec:")) {
+			executable = new Executor(engine);
+		} else if (remaining.startsWith("engine:")) {
+			executable = new EngineLifecycle(engine);
 		}
 		return executable==null?null:new BeanEndpoint(uri, this, new BeanProcessor(executable, getCamelContext()));
 	}
