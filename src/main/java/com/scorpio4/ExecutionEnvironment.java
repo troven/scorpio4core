@@ -4,7 +4,7 @@ import com.scorpio4.assets.AssetRegister;
 import com.scorpio4.fact.FactSpace;
 import com.scorpio4.util.Identifiable;
 import com.scorpio4.vendor.sesame.RepositoryManager;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
 
 import java.util.Map;
 
@@ -19,11 +19,13 @@ public interface ExecutionEnvironment extends Identifiable {
 
 	public FactSpace getFactSpace();
 
-	public BeanDefinitionRegistry getRegistry();
+	public ApplicationContext getRegistry();
 
 	public AssetRegister getAssetRegister();
 
 	public RepositoryManager getRepositoryManager();
 
 	public Map getConfig();
+
+	public void reboot() throws Exception;
 }

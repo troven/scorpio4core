@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <groupId>com.scorpio4</groupId>
-        <artifactId>scorpio4master</artifactId>
-        <version>0.03-SNAPSHOT</version>
-        <relativePath>../scorpio4master</relativePath>
+        <artifactId>scorpio4</artifactId>
+        <version>0.06-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -18,8 +15,8 @@
     <url>http://www.scorpio4.com</url>
 
     <organization>
-        <name>Scorpio4</name>
-        <url>http://www.scorpio4.com/scorpio4/</url>
+        <name>scorpio4</name>
+        <url>http://www.scorpio4.com/pom/</url>
     </organization>
 
     <developers>
@@ -45,8 +42,8 @@
     </licenses>
 
     <scm>
-        <url>github.com/troven/scorpio4core.git</url>
-        <connection>scm:git:https://github.com/troven/scorpio4core.git</connection>
+        <url>github.com/scorpio4/scorpio4core.git</url>
+        <connection>scm:git:https://github.com/scorpio4/scorpio4core.git</connection>
     </scm>
 
     <properties>
@@ -299,7 +296,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -313,7 +309,6 @@
             <groupId>org.jmock</groupId>
             <artifactId>jmock-legacy</artifactId>
             <version>2.5.1</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

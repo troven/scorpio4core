@@ -44,7 +44,8 @@
     <scm>
         <url>github.com/scorpio4/scorpio4core.git</url>
         <connection>scm:git:https://github.com/scorpio4/scorpio4core.git</connection>
-    </scm>
+      <tag>scorpio4core-0.06</tag>
+  </scm>
 
     <properties>
 

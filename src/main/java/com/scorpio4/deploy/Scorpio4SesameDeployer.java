@@ -155,6 +155,11 @@ public class Scorpio4SesameDeployer implements Identifiable {
 		deploy(jarURL.getJarFile());
 	}
 
+	public void classpath(String resource) throws FactException, IOException {
+		InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
+		deploy(resource, resourceAsStream);
+	}
+
 	public void deploy(ZipFile zipFile) throws FactException, IOException {
         log.debug("Deploying Archive: "+zipFile.getName());
 		try {
