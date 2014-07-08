@@ -19,7 +19,7 @@ import java.util.Map;
  * Time  : 11:20 PM
  */
 public class FingerPrintComponent extends ClassComponent {
-	protected final Logger log = LoggerFactory.getLogger(SelfComponent.class);
+	protected final Logger log = LoggerFactory.getLogger(FingerPrintComponent.class);
 	protected Object bean;
 
 	public FingerPrintComponent(Object bean) {

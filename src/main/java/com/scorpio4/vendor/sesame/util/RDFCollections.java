@@ -2,6 +2,7 @@ package com.scorpio4.vendor.sesame.util;
 
 import com.scorpio4.vocab.COMMON;
 import org.openrdf.model.*;
+import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
@@ -18,19 +19,19 @@ import java.util.*;
  * Time  : 11:04 PM
  * Apache Licensed.
  */
-public class RDFList {
-    private static final Logger log = LoggerFactory.getLogger(RDFList.class);
+public class RDFCollections {
+    private static final Logger log = LoggerFactory.getLogger(RDFCollections.class);
 
     RepositoryConnection connection = null;
     URI LIST = null, rdfFirst = null, rdfRest = null, rdfNil = null, context = null;
     boolean useInferred = true;
     Map seen = new HashMap();
 
-    public RDFList(RepositoryConnection connection) {
+    public RDFCollections(RepositoryConnection connection) {
         this(connection, null);
     }
 
-    public RDFList(RepositoryConnection connection, String context) {
+    public RDFCollections(RepositoryConnection connection, String context) {
         this.connection=connection;
         ValueFactory vf = connection.getValueFactory();
         this.rdfFirst = vf.createURI(COMMON.RDF+"first");
@@ -38,6 +39,12 @@ public class RDFList {
         this.rdfNil = vf.createURI(COMMON.RDF+"nil");
         if (context!=null) this.context = vf.createURI(context);
     }
+
+	public boolean isList(Resource head) throws RepositoryException {
+		if (head==null) return false;
+		boolean isList = connection.hasStatement(head, RDF.TYPE, RDF.LIST, useInferred);
+		return isList;
+	}
 
 	public Collection<Value> getList(String head, String predicate) throws RepositoryException {
         ValueFactory vf = connection.getValueFactory();
@@ -47,10 +54,7 @@ public class RDFList {
     public Collection<Value> getList(Resource head, URI predicate) throws RepositoryException {
         List<Value> list = new ArrayList();
         log.debug("\tgetList: "+head+" -> "+predicate+" @ "+context);
-        RepositoryResult<Statement> statements = null;
-
-	    if (context==null) statements = connection.getStatements(head, predicate, LIST, useInferred);
-		else statements = connection.getStatements(head, predicate, LIST, useInferred, context);
+        RepositoryResult<Statement> statements = getStatements(head,predicate);
 
 		while (statements.hasNext()) {
             Statement statement = statements.next();
@@ -62,6 +66,13 @@ public class RDFList {
         }
         return list;
     }
+
+	public Collection<Value> getList(Resource head) throws RepositoryException {
+		List<Value> list = new ArrayList();
+		log.debug("\tgetList: "+head+" @ "+context);
+		addToList(list, head);
+		return list;
+	}
 
 	protected void addToList(Collection<Value> list, Resource head) throws RepositoryException {
         if (seen.containsKey(head.stringValue())) return;

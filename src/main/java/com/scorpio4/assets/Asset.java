@@ -40,7 +40,8 @@ public class Asset implements Identifiable {
     }
 
 	public String getContentType() {
-		if (getMimeType().startsWith(COMMON.MIME_TYPE)) {
+		if (mimeType==null) return "application/x-unknown";
+		if (mimeType.startsWith(COMMON.MIME_TYPE)) {
 			return getMimeType().substring(COMMON.MIME_TYPE.length());
 		}
 		return mimeType;

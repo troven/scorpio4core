@@ -2,7 +2,7 @@ package com.scorpio4.vendor.spring;
 
 import com.scorpio4.iq.bean.BeanConverter;
 import com.scorpio4.util.Identifiable;
-import com.scorpio4.vendor.sesame.util.RDFList;
+import com.scorpio4.vendor.sesame.util.RDFCollections;
 import com.scorpio4.vendor.sesame.util.RDFScalars;
 import com.scorpio4.vocab.COMMON;
 import org.openrdf.model.*;
@@ -51,7 +51,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	ValueFactory vf = null;
 	BeanConverter converter = new BeanConverter();
 	protected Map reserved = new HashMap();
-	RDFList rdfList;
+	RDFCollections rdfCollections;
 	RDFScalars rdfScalars;
 
 
@@ -64,7 +64,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		Assert.notNull(connection, "RepositoryConnection can't be NULL");
 		this.connection=connection;
 		vf = connection.getValueFactory();
-		rdfList = new RDFList(connection);
+		rdfCollections = new RDFCollections(connection);
 		rdfScalars = new RDFScalars(connection);
 		setBeanClassLoader(Thread.currentThread().getContextClassLoader());
 		defaultReservedWords();
@@ -222,7 +222,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		defineBean.setConstructorArgumentValues(argValues);
 
 		// dependsOn
-		Collection<Value> dependsList = rdfList.getList(beanURI, createURI( "dependsOn"));
+		Collection<Value> dependsList = rdfCollections.getList(beanURI, createURI( "dependsOn"));
 		String[] dependsOn = new String[dependsList.size()];
 		i=0;
 		for(Value depends: dependsList) {
@@ -240,7 +240,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	}
 
 	private int createConstructor(int i, org.openrdf.model.Resource beanURI, ConstructorArgumentValues argValues, URI newPredicate) throws RepositoryException {
-		Collection<Value> initArgs = this.rdfList.getList(beanURI, newPredicate);
+		Collection<Value> initArgs = this.rdfCollections.getList(beanURI, newPredicate);
 		for(Value initValue: initArgs) {
 			i = addToArguments(argValues, i, initValue);
 		}

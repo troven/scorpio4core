@@ -1,13 +1,12 @@
 package com.scorpio4.iq.exec;
 
-import com.scorpio4.ExecutionEnvironment;
 import com.scorpio4.assets.Asset;
 import com.scorpio4.assets.AssetRegister;
 import com.scorpio4.assets.AssetRegisters;
 import com.scorpio4.fact.FactSpace;
 import com.scorpio4.oops.AssetNotSupported;
 import com.scorpio4.oops.IQException;
-import com.scorpio4.vendor.sesame.util.RDFList;
+import com.scorpio4.vendor.sesame.util.RDFCollections;
 import com.scorpio4.vocab.COMMON;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -39,7 +38,7 @@ public class Executor implements Executable {
 
     AssetRegister assetRegister = null;
     FactSpace factSpace = null;
-    RDFList rdfList = null;
+    RDFCollections rdfCollections = null;
     String DO_EXECUTES = COMMON.CORE+"iq/executes";
     String DO_EXECUTE = COMMON.CORE+"iq/execute";
     String DO_CHAIN = COMMON.CORE+"iq/runs";
@@ -54,14 +53,8 @@ public class Executor implements Executable {
     public Executor(FactSpace factSpace, AssetRegister assetRegister) {
         this.factSpace = factSpace;
         this.assetRegister = assetRegister;
-        this.rdfList = new RDFList(factSpace.getConnection(),factSpace.getIdentity());
+        this.rdfCollections = new RDFCollections(factSpace.getConnection(),factSpace.getIdentity());
     }
-
-	public Executor(ExecutionEnvironment engine) {
-		this.factSpace = engine.getFactSpace();
-		this.assetRegister = engine.getAssetRegister();
-		this.rdfList = new RDFList(factSpace.getConnection(),factSpace.getIdentity());
-	}
 
     public void addExecutable(String name, Executable executable) {
         beanFactory.put(name,executable);
@@ -74,7 +67,7 @@ public class Executor implements Executable {
     public Map<String,Future> run(String listURI, Map bindings) throws RepositoryException, ExecutionException, IQException, InterruptedException, IOException, AssetNotSupported {
         log.debug("doRun: {} @ {}", listURI, DO_CHAIN);
         Map<String,Future> results = new HashMap();
-        Collection<Value> allRuns = rdfList.getList(listURI, DO_CHAIN);
+        Collection<Value> allRuns = rdfCollections.getList(listURI, DO_CHAIN);
 
         for(Value runURI: allRuns) {
             Map<String, Future> futureMap = execute(runURI.stringValue(), bindings);
@@ -86,7 +79,7 @@ public class Executor implements Executable {
     public Map<String, Future> execute(String listURI, Map bindings) throws RepositoryException, ExecutionException, IQException, InterruptedException, IOException, AssetNotSupported {
         seen.clear();
         log.debug("doExecute: {}", listURI);
-        Collection<Value> allExecs = rdfList.getList(listURI, DO_EXECUTES);
+        Collection<Value> allExecs = rdfCollections.getList(listURI, DO_EXECUTES);
 
         Map results = new HashMap();
         RepositoryConnection connection = factSpace.getConnection();

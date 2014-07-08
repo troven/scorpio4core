@@ -8,7 +8,7 @@ import org.apache.camel.component.bean.BeanProcessor;
 import org.apache.camel.component.bean.ClassComponent;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.manager.RepositoryManager;
+import org.openrdf.repository.sail.config.RepositoryResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,14 +23,14 @@ import java.util.Map;
  */
 public class SesameComponent extends ClassComponent {
 	static protected final Logger log = LoggerFactory.getLogger(SesameComponent.class);
-	RepositoryManager manager;
+	RepositoryResolver manager;
 	RepositoryConnection connection;
 
 	public SesameComponent(RepositoryConnection connection) {
 		this.connection=connection;
 	}
 
-	public SesameComponent(RepositoryManager manager) {
+	public SesameComponent(RepositoryResolver manager) {
 		this.manager=manager;
 	}
 
