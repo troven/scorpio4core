@@ -19,13 +19,13 @@ package com.scorpio4.vendor.sesame.stream;
 
 import com.scorpio4.fact.stream.FactStream;
 import com.scorpio4.oops.FactException;
+import com.scorpio4.vocab.COMMON;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.query.*;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
-import org.semarglproject.vocab.XSD;
 
 import java.util.Map;
 
@@ -72,7 +72,7 @@ public class SesameStreamReader {
                 Statement stmt = result.next();
                 if (stmt.getObject() instanceof Literal) {
                     Literal value = (Literal)stmt.getObject();
-                    String dataType = XSD.STRING;
+                    String dataType = COMMON.XSD+"string";
                     if (value.getDatatype()!=null) dataType = value.getDatatype().toString();
                     stream.fact(stmt.getSubject().toString(), stmt.getPredicate().toString(), value.getLabel(), dataType);
                 } else {

@@ -115,6 +115,7 @@ public class Scorpio4SesameDeployer implements Identifiable {
 				}
 			}
 			extension2type.put("sparql", COMMON.MIME_TYPE+ "application/x-sparql-query");
+			extension2type.put("rq", COMMON.MIME_TYPE+ "application/x-sparql-query");
 			extension2type.put("camel.xml",	COMMON.MIME_TYPE+ "application/x-camel-route");
 			extension2type.put("asq",	COMMON.MIME_TYPE+ "application/x-asq");
 
@@ -219,7 +220,7 @@ public class Scorpio4SesameDeployer implements Identifiable {
         }
 		try {
 			if (extension.equals("n3") && isDeployingRDF()) {
-				n3(localPath, inStream);
+				deployN3(localPath, inStream);
 			} else if (extension.equals("ttl") && isDeployingRDF()) {
 				deployTTL(localPath, inStream);
 			} else if (extension.equals("rdf.xml") && isDeployingRDF()) {
@@ -232,6 +233,8 @@ public class Scorpio4SesameDeployer implements Identifiable {
                 deployRDFXML(localPath, inStream);
             } else if (extension.equals("nt") && isDeployingRDF()) {
                 deployNT(localPath, inStream);
+			} else if (extension.equals("nq") && isDeployingRDF()) {
+				deployNQ(localPath, inStream);
 			} else if (scriptTypes.containsKey(extension) && isDeployingScripts() ) {
                 script(localPath, inStream);
             } else if(extension2type.containsKey(extension) && isDeployingScripts() ) {
@@ -244,41 +247,35 @@ public class Scorpio4SesameDeployer implements Identifiable {
 		}
 	}
 
-    public void n3(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
-	    getConnection().begin();
-        String baseURN = toURN(localPath, ":");
-        log.debug("Deploying N3: "+baseURN+" in: "+provenanceContext+" ("+inStream.available()+")");
-        getConnection().add(inStream, baseURN, RDFFormat.N3, provenanceContext);
-        describeAsset(baseURN);
-	    getConnection().commit();
-    }
-
-	public void deployNT(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+	private void deployRIO(String localPath, InputStream inStream, RDFFormat format) throws RepositoryException, IOException, RDFParseException {
 		getConnection().begin();
 		String baseURN = toURN(localPath, ":");
-		log.debug("Deploying NTriples for: "+baseURN+" in: "+provenanceContext);
-		getConnection().add(inStream, baseURN, RDFFormat.NTRIPLES, provenanceContext);
+		log.debug("Deploying "+format+": "+baseURN+" in: "+provenanceContext+" ("+inStream.available()+")");
+		getConnection().add(inStream, baseURN, format, provenanceContext);
 		describeAsset(baseURN);
 		getConnection().commit();
+	}
+
+	public void deployN3(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+        deployRIO(localPath, inStream, RDFFormat.N3);
+    }
+
+	public void deployNQ(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+		deployRIO(localPath, inStream, RDFFormat.NQUADS);
+	}
+
+	public void deployNT(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
+		deployRIO(localPath, inStream, RDFFormat.NTRIPLES);
 	}
 
 	public void deployTTL(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
-		getConnection().begin();
-		String baseURN = toURN(localPath, ":");
-		log.debug("Deploying TTL for: "+baseURN+" in: "+provenanceContext);
-		getConnection().add(inStream, baseURN, RDFFormat.TURTLE, provenanceContext);
-		describeAsset(baseURN);
-		getConnection().commit();
+		deployRIO(localPath, inStream, RDFFormat.TURTLE);
 	}
 
 	public void deployRDFXML(String localPath, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
-		getConnection().begin();
-		String baseURN = toURN(localPath, ":");
-		log.debug("Deploying RDF/XML for: "+baseURN+" in: "+provenanceContext);
-		getConnection().add(inStream, baseURN, RDFFormat.RDFXML, provenanceContext);
-		describeAsset(baseURN);
-		getConnection().commit();
+		deployRIO(localPath, inStream, RDFFormat.RDFXML);
 	}
+
 
     public void asset(String scriptName, InputStream inStream) throws IOException, RDFParseException, RepositoryException {
 	    getConnection().begin();

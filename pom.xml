@@ -234,11 +234,6 @@
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-rdfxml</artifactId>
-            <version>${sesame.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-sail-nativerdf</artifactId>
             <version>${sesame.version}</version>
         </dependency>
@@ -278,25 +273,12 @@
             <version>${sesame.version}</version>
         </dependency>
 
-        <!-- Apache Camel (Graph-based Integration & Workflow) -->
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-core</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-
-        <!-- Apache Libraries -->
-        <dependency>
-            <groupId>org.apache.any23</groupId>
-            <artifactId>apache-any23-core</artifactId>
-            <version>1.0</version>
-        </dependency>
-
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -310,6 +292,7 @@
             <groupId>org.jmock</groupId>
             <artifactId>jmock-legacy</artifactId>
             <version>2.5.1</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

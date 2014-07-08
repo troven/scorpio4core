@@ -72,4 +72,16 @@ public interface COMMON {
     public static final String FN = SELF+"vendor/sesame/fn/";
 
 	public static final String CAMEL_FLO = CORE+"flo/";
+
+
+	public static final String STRING = XSD+"string";
+	public static final String INTEGER = XSD+"integer";
+	public static final String DOUBLE= XSD+"double";
+	public static final String FLOAT = XSD+"float";
+	public static final String DATE = XSD+"date";
+	public static final String ANY_URI = XSD+"anyURI";
+	public static final String DATE_TIME = XSD+"dateTime";
+	public static final String BOOLEAN = XSD+"boolean";
+
+	public static final String LIST = RDF+"list";
 }

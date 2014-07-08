@@ -6,11 +6,9 @@ import com.scorpio4.vendor.sesame.util.RDFCollections;
 import com.scorpio4.vendor.sesame.util.RDFScalars;
 import com.scorpio4.vocab.COMMON;
 import org.openrdf.model.*;
-import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
-import org.semarglproject.vocab.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;
@@ -41,7 +39,7 @@ import java.util.Map;
  * Date  : 18/06/2014
  * Time  : 9:27 AM
  */
-public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implements Identifiable {
+public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implements Identifiable, COMMON {
 	static protected final Logger log = LoggerFactory.getLogger(RDFBeanDefinitionReader.class);
 
 	String NS = COMMON.CORE+"bean/";
@@ -131,7 +129,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	private int readSingleton(URI resourceURI) throws RepositoryException, ClassNotFoundException {
 		int count = 0;
 		log.debug("Bean Singleton: "+resourceURI);
-		RepositoryResult<Statement> beans = connection.getStatements( resourceURI, RDF.TYPE, null, true);
+		RepositoryResult<Statement> beans = connection.getStatements( resourceURI, vf.createURI(LIST), null, true);
 		while(beans.hasNext()) {
 			Statement bean = beans.next();
 			boolean isBean = bean.getObject().stringValue().startsWith("bean:");
@@ -151,7 +149,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 	private int readBean(org.openrdf.model.Resource resource, org.openrdf.model.Resource classURI, String scope) throws RepositoryException, ClassNotFoundException {
 		int count = 0;
 		log.debug("readBean("+scope+") -> "+ resource+" @ "+classURI);
-		RepositoryResult<Statement> beans = connection.getStatements(classURI, RDF.TYPE, vf.createURI(BEAN), true);
+		RepositoryResult<Statement> beans = connection.getStatements(classURI, vf.createURI(A), vf.createURI(BEAN), true);
 		while(beans.hasNext()) {
 			Statement bean = beans.next();
 			String beanClass = bean.getSubject().stringValue();
@@ -178,37 +176,37 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		 * Scalar Definitions
 		 */
 
-		Literal lazyInit = rdfScalars.getLiteral(beanURI, createURI( "lazyInit"), XSD.BOOLEAN);
+		Literal lazyInit = rdfScalars.getLiteral(beanURI, createURI( "lazyInit"), BOOLEAN);
 		if (lazyInit!=null) defineBean.setLazyInit(lazyInit.booleanValue());
 
-		Literal initMethod = rdfScalars.getLiteral(beanURI, createURI( "initMethod"), XSD.STRING);
+		Literal initMethod = rdfScalars.getLiteral(beanURI, createURI( "initMethod"), STRING);
 		if (initMethod!=null) defineBean.setInitMethodName(initMethod.stringValue());
 
-		Literal destroyMethod = rdfScalars.getLiteral(beanURI, createURI( "destroyMethod"), XSD.STRING);
+		Literal destroyMethod = rdfScalars.getLiteral(beanURI, createURI( "destroyMethod"), STRING);
 		if (destroyMethod!=null) defineBean.setDestroyMethodName(destroyMethod.stringValue());
 
-		Literal lenient = rdfScalars.getLiteral(beanURI, createURI( "lenient"), XSD.BOOLEAN);
+		Literal lenient = rdfScalars.getLiteral(beanURI, createURI( "lenient"), BOOLEAN);
 		if (lenient!=null) defineBean.setLenientConstructorResolution(lenient.booleanValue());
 
-		Literal singleton = rdfScalars.getLiteral(beanURI, createURI( "singleton"), XSD.BOOLEAN);
-		boolean isSingleton = connection.hasStatement(bean.getSubject(), RDF.TYPE, bean.getSubject(), false);
+		Literal singleton = rdfScalars.getLiteral(beanURI, createURI( "singleton"), BOOLEAN);
+		boolean isSingleton = connection.hasStatement(bean.getSubject(), vf.createURI(A), bean.getSubject(), false);
 		if ( (singleton!=null && singleton.booleanValue()) || isSingleton) {
 			defineBean.setScope(BeanDefinition.SCOPE_SINGLETON);
 		}
 
-		Literal enforceInit = rdfScalars.getLiteral(beanURI, createURI( "enforceInit"), XSD.BOOLEAN);
+		Literal enforceInit = rdfScalars.getLiteral(beanURI, createURI( "enforceInit"), BOOLEAN);
 		if (enforceInit!=null) defineBean.setEnforceInitMethod(enforceInit.booleanValue());
 
-		Literal enforceDestroy = rdfScalars.getLiteral(beanURI, createURI( "enforceDestroy"), XSD.BOOLEAN);
+		Literal enforceDestroy = rdfScalars.getLiteral(beanURI, createURI( "enforceDestroy"), BOOLEAN);
 		if (enforceDestroy!=null) defineBean.setEnforceDestroyMethod(enforceDestroy.booleanValue());
 
-		Literal primary = rdfScalars.getLiteral(beanURI, createURI( "primary"), XSD.BOOLEAN);
+		Literal primary = rdfScalars.getLiteral(beanURI, createURI( "primary"), BOOLEAN);
 		if (primary!=null) defineBean.setPrimary(primary.booleanValue());
 
-		Literal autoWire = rdfScalars.getLiteral(beanURI, createURI( "autoWire"), XSD.BOOLEAN);
+		Literal autoWire = rdfScalars.getLiteral(beanURI, createURI( "autoWire"), BOOLEAN);
 		if (autoWire!=null) defineBean.setAutowireCandidate(autoWire.booleanValue());
 
-		Literal description = rdfScalars.getLiteral(beanURI, createURI( "description"), XSD.STRING);
+		Literal description = rdfScalars.getLiteral(beanURI, createURI( "description"), STRING);
 		if (description!=null) defineBean.setDescription(description.stringValue());
 
 		/*
@@ -283,7 +281,7 @@ public class RDFBeanDefinitionReader extends AbstractBeanDefinitionReader implem
 		} else if (value instanceof Literal) {
 			Literal literal = (Literal)value;
 			URI datatype = literal.getDatatype();
-			if (datatype==null) datatype = vf.createURI(XSD.STRING);
+			if (datatype==null) datatype = vf.createURI(STRING);
 			log.debug("\tNew: "+literal+" @ "+datatype);
 
 			Object o = converter.convertToType(literal.stringValue(), datatype.toString());
