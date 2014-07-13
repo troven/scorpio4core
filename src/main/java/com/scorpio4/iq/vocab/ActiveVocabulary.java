@@ -13,6 +13,6 @@ public interface ActiveVocabulary extends Bootable {
 
 	public void start() throws Exception;
 	public void stop() throws Exception;
-	public void trigger(String resource);
+	public Object activate(String resource, Object body);
 
 }
