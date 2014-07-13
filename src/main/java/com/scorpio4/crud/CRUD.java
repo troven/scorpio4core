@@ -20,6 +20,7 @@ package com.scorpio4.crud;
 
 import com.scorpio4.oops.ConfigException;
 import com.scorpio4.oops.FactException;
+import com.scorpio4.util.Identifiable;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -33,7 +34,7 @@ import java.util.Map;
  * <p/>
  * Defines a basic CRUD interface
  */
-public interface CRUD  {
+public interface CRUD  extends Identifiable {
 
     public Model create(Map model) throws FactException;
 

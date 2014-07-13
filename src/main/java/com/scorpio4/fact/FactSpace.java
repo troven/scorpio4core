@@ -1,7 +1,9 @@
 package com.scorpio4.fact;
 
 import com.scorpio4.util.Identifiable;
+import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
 
 /**
  * Scorpio4 (c) 2014
@@ -11,17 +13,23 @@ import org.openrdf.repository.RepositoryConnection;
  * Time  : 7:13 PM
  */
 public class FactSpace implements Identifiable {
-    RepositoryConnection connection;
+	Repository repository;
     String context;
+	RepositoryConnection connection;
 
-    public FactSpace(RepositoryConnection connection, String context) {
-        this.connection=connection;
+	public FactSpace(String context, Repository repository) throws RepositoryException {
         this.context=context;
+		this.repository=repository;
+		this.connection = repository.getConnection();
     }
 
-    public RepositoryConnection getConnection() {
-        return connection;
+    public RepositoryConnection  getConnection() throws RepositoryException {
+	    return connection;
     }
+
+	public void close() throws RepositoryException {
+		if (connection!=null) connection.close();
+	}
 
     @Override
     public String getIdentity() {

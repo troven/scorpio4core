@@ -71,7 +71,7 @@ public interface COMMON {
     public static final String CORE = SELF+"vocab/v1/";
     public static final String FN = SELF+"vendor/sesame/fn/";
 
-	public static final String CAMEL_FLO = CORE+"flo/";
+	public static final String ACTIVE_FLO = CORE+"flo/";
 
 
 	public static final String STRING = XSD+"string";

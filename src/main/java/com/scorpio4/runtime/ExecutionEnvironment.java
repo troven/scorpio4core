@@ -1,8 +1,8 @@
 package com.scorpio4.runtime;
 
 import com.scorpio4.assets.AssetRegister;
-import com.scorpio4.fact.FactSpace;
 import com.scorpio4.util.Identifiable;
+import org.openrdf.repository.Repository;
 import org.openrdf.repository.sail.config.RepositoryResolver;
 import org.springframework.context.ApplicationContext;
 
@@ -17,13 +17,13 @@ import java.util.Map;
  */
 public interface ExecutionEnvironment extends Identifiable {
 
-	public FactSpace getFactSpace();
-
 	public ApplicationContext getRegistry();
 
 	public AssetRegister getAssetRegister();
 
 	public RepositoryResolver getRepositoryManager();
+
+	public Repository getRepository();
 
 	public Map getConfig();
 
