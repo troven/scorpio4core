@@ -14,6 +14,16 @@ import java.util.Map;
  * User  : lee
  * Date  : 5/07/2014
  * Time  : 9:58 PM
+ *
+ * @author lee
+ * @see com.scorpio4.iq.vocab.ActiveVocabulary
+ *
+ * Specifies the minimal requirements for a Scorpio4 runtime.
+ * In particular, ActiveVocabularies rely upon a correctly configured
+ * ExecutionEnvironment to be used.
+ *
+ * Effectively, Scorpio4 depends upon the Spring Framework and OpenRDF Sesame.
+ *
  */
 public interface ExecutionEnvironment extends Identifiable {
 

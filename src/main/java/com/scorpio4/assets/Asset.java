@@ -9,6 +9,13 @@ import com.scorpio4.vocab.COMMON;
  * User  : lee
  * Date  : 17/06/2014
  * Time  : 8:50 PM
+ *
+ * @author lee
+ * @see com.scorpio4.util.Identifiable
+ *
+ * An Asset identifies and encapsulates mime-typed content.
+ * In most internal use cases, the content is simple a String.class
+ *
  */
 public class Asset implements Identifiable {
 	String identity = null;
@@ -21,15 +28,15 @@ public class Asset implements Identifiable {
 		this.mimeType=mimeType;
 	}
 
-    public Asset(Object content, String mimeType) {
-        this.content=content;
-        this.mimeType=mimeType;
-    }
-
-    public Asset(String content) {
-        this.content=content;
-        this.mimeType= COMMON.MIME_PLAIN;
-    }
+//    public Asset(Object content, String mimeType) {
+//        this.content=content;
+//        this.mimeType=mimeType;
+//    }
+//
+//    public Asset(String content) {
+//        this.content=content;
+//        this.mimeType= COMMON.MIME_PLAIN;
+//    }
 
     public Object getContent() {
         return content;

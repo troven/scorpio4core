@@ -11,6 +11,16 @@ import org.openrdf.repository.RepositoryException;
  * User  : lee
  * Date  : 17/06/2014
  * Time  : 7:13 PM
+ *
+ * @author lee
+ *
+ * Represents a Sesame Connection to a named graph.
+ *
+ * The user of the FactSpace is free to determine how to interpret it's identify
+ * as a context (quad) or simply as the name of the default graph at the given repository.
+ *
+ *
+ *
  */
 public class FactSpace implements Identifiable {
 	Repository repository;
