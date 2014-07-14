@@ -9,7 +9,9 @@ package com.scorpio4.fact.onto;
  *
  * @author lee
  *
- * Represents an RDFS vocabulary.
+ * Represents a simplfied abstraction of an RDFS vocabulary,
+ * the results are specifically for end-user viewing rather than programmatic interrogation.
+ *
  * The implementation must return a String representation for each method call.
  * If a valid representation is not available for a known term, then the implementation
  * must return some user-presentatable representation of URI, for examplea a CURIE.
