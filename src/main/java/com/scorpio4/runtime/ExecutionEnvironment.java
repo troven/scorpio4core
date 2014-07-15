@@ -38,4 +38,6 @@ public interface ExecutionEnvironment extends Identifiable {
 	public Map getConfig();
 
 	public void reboot() throws Exception;
+
+	public ClassLoader getClassLoader();
 }
