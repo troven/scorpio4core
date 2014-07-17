@@ -17,5 +17,6 @@ import java.util.Map;
 public interface Bindable {
 
     public void bind(Map bindings);
+	public Map getBindings();
 
 }

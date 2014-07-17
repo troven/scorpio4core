@@ -62,7 +62,6 @@ public interface COMMON {
 
 	public static final String ACTIVE_FLO = CORE+"flo/";
 
-
 	public static final String STRING = XSD+"string";
 	public static final String INTEGER = XSD+"integer";
 	public static final String DOUBLE= XSD+"double";
