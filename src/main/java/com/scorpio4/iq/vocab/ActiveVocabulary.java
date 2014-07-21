@@ -7,7 +7,7 @@ import com.scorpio4.util.Identifiable;
 /**
  * scorpio4-oss (c) 2014
  * Module: com.scorpio4.iq
- * User  : lee
+ * @author lee
  * Date  : 7/07/2014
  * Time  : 8:34 PM
  */

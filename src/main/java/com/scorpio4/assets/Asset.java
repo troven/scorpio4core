@@ -2,11 +2,17 @@ package com.scorpio4.assets;
 
 import com.scorpio4.util.Identifiable;
 import com.scorpio4.vocab.COMMON;
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+
+import javax.activation.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Scorpio4 (c) 2014
  * Module: com.scorpio4.assets
- * User  : lee
+ * @author lee
  * Date  : 17/06/2014
  * Time  : 8:50 PM
  *
@@ -17,7 +23,7 @@ import com.scorpio4.vocab.COMMON;
  * In most internal use cases, the content is simple a String.class
  *
  */
-public class Asset implements Identifiable {
+public class Asset implements Identifiable, DataSource {
 	String identity = null;
     Object content = null;
     String mimeType = null;
@@ -28,16 +34,6 @@ public class Asset implements Identifiable {
 		this.mimeType=mimeType;
 	}
 
-//    public Asset(Object content, String mimeType) {
-//        this.content=content;
-//        this.mimeType=mimeType;
-//    }
-//
-//    public Asset(String content) {
-//        this.content=content;
-//        this.mimeType= COMMON.MIME_PLAIN;
-//    }
-
     public Object getContent() {
         return content;
     }
@@ -46,12 +42,29 @@ public class Asset implements Identifiable {
         return mimeType;
     }
 
+	@Override
+	public InputStream getInputStream() throws IOException {
+		byte[] bytes = getContent().toString().getBytes();
+		return new ByteInputStream(bytes, bytes.length);
+	}
+
+	@Override
+	public OutputStream getOutputStream() throws IOException {
+//		new ByteOutputStream();
+		return null;
+	}
+
 	public String getContentType() {
-		if (mimeType==null) return "application/x-unknown";
+		if (mimeType==null) return "application/octet-stream";
 		if (mimeType.startsWith(COMMON.MIME_TYPE)) {
 			return getMimeType().substring(COMMON.MIME_TYPE.length());
 		}
 		return mimeType;
+	}
+
+	@Override
+	public String getName() {
+		return getIdentity();
 	}
 
 	public String toString() {

@@ -8,7 +8,7 @@ import org.openrdf.repository.RepositoryException;
 /**
  * Scorpio4 (c) 2014
  * Module: com.scorpio4.fact
- * User  : lee
+ * @author lee
  * Date  : 17/06/2014
  * Time  : 7:13 PM
  *

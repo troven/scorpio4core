@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 /**
  * Scorpio4 (c) 2014
  * Module: com.scorpio4.iq
- * User  : lee
+ * @author lee
  * Date  : 17/06/2014
  * Time  : 9:18 PM
  */

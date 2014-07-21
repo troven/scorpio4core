@@ -8,7 +8,7 @@ package com.scorpio4.template;
 /**
  * scorpio4 (c) 2013
  * Module: com.scorpio4.output.template
- * User  : lee
+ * @author lee
  * Date  : 28/11/2013
  * Time  : 10:52 PM
  */

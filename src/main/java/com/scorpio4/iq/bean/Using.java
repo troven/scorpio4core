@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * scorpio4 (c) 2013
  * Module: com.scorpio4.iq.annotations
- * User  : lee
+ * @author lee
  * Date  : 31/12/2013
  * Time  : 7:42
  *

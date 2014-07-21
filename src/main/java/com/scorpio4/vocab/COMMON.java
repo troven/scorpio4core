@@ -49,6 +49,7 @@ public interface COMMON {
     public static final String MIME_SPARQL = MIME_TYPE+"application/x-sparql-query";
     public static final String MIME_SQL = MIME_TYPE+"text/x-sql";
 	public static final String MIME_JSON_LD = MIME_TYPE+"application/ld+json";
+	public static final String MIME_RDFXML = MIME_TYPE+"application/rdf+xml";
 
     public static final String MIME_HTML = MIME_TYPE+ "text/html";
     public static final String MIME_XHTML = MIME_TYPE+ "application/xhtml+xml";
@@ -57,7 +58,7 @@ public interface COMMON {
 
     public static final String SELF = "http://scorpio4.com/";
 
-    public static final String CORE = SELF+"vocab/v1/";
+    public static final String CORE = SELF+"v1/vocab/";
     public static final String FN = SELF+"vendor/sesame/fn/";
 
 	public static final String ACTIVE_FLO = CORE+"flo/";

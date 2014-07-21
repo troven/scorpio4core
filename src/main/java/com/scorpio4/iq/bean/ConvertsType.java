@@ -8,7 +8,7 @@ package com.scorpio4.iq.bean;
 /**
  * scorpio4 (c) 2013
  * Module: com.scorpio4.iq.bean
- * User  : lee
+ * @author lee
  * Date  : 31/12/2013
  * Time  : 9:22 PM
  *

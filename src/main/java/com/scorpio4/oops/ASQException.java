@@ -3,7 +3,7 @@ package com.scorpio4.oops;
 /**
  * scorpio4-oss (c) 2014
  * Module: com.scorpio4.oops
- * User  : lee
+ * @author lee
  * Date  : 16/07/2014
  * Time  : 1:30 PM
  */

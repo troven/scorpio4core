@@ -3,7 +3,7 @@ package com.scorpio4.fact.onto;
 /**
  * Scorpio (c) 2014
  * Module: com.scorpio4.fact
- * User  : lee
+ * @author lee
  * Date  : 26/06/2014
  * Time  : 9:26 AM
  *

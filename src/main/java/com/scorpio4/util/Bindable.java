@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * scorpio4 (c) 2013
  * Module: com.scorpio4.util
- * User  : lee
+ * @author lee
  * Date  : 18/09/13
  * Time  : 9:26 PM
  */
