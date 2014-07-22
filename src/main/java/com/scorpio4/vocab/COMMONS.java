@@ -13,7 +13,7 @@ package com.scorpio4.vocab;
  * 1st May 2014 - Licensed to Apscore
  *
  */
-public interface COMMON {
+public interface COMMONS {
 
     public static final String OWL = "http://www.w3.org/2002/07/owl#";
 	public static final String RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
@@ -73,4 +73,5 @@ public interface COMMON {
 	public static final String BOOLEAN = XSD+"boolean";
 
 	public static final String LIST = RDF+"list";
+
 }

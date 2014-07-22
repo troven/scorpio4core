@@ -1,7 +1,7 @@
 package com.scorpio4.assets;
 
 import com.scorpio4.util.Identifiable;
-import com.scorpio4.vocab.COMMON;
+import com.scorpio4.vocab.COMMONS;
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 
 import javax.activation.DataSource;
@@ -56,8 +56,8 @@ public class Asset implements Identifiable, DataSource {
 
 	public String getContentType() {
 		if (mimeType==null) return "application/octet-stream";
-		if (mimeType.startsWith(COMMON.MIME_TYPE)) {
-			return getMimeType().substring(COMMON.MIME_TYPE.length());
+		if (mimeType.startsWith(COMMONS.MIME_TYPE)) {
+			return getMimeType().substring(COMMONS.MIME_TYPE.length());
 		}
 		return mimeType;
 	}
