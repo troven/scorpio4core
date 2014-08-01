@@ -14,4 +14,9 @@ public class OOPS {
 	public final static String NS = "http://scorpio4.com/v1/oops/";
 
 	public final static String LOD_RESPONSE = NS + "";
+
+	public String oops(Object src, String uuid) {
+		return NS+uuid;
+	}
+
 }
