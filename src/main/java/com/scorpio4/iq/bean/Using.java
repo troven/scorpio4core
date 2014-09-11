@@ -17,7 +17,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @author lee
  *
- * Carry-over from Fact:Core's BeanBuilder.
+ * Carry-over from Scorpio4's BeanBuilder.
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
