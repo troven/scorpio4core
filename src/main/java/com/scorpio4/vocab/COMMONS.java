@@ -28,6 +28,9 @@ public interface COMMONS {
 	public static final String COMMENT = RDFS+"comment" ;
     public static final String DOMAIN = RDFS+"domain" ;
     public static final String RANGE = RDFS+"range" ;
+	public static final String ISDEFINEDBY = RDFS+"isDefinedBy";
+	public static final String DATATYPE = OWL+"DatatypeProperty";
+	public static final String OBJECTTYPE = OWL+"ObjectProperty";
 
     // Common Vocabularies;
 
